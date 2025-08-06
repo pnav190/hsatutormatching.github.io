@@ -1,0 +1,59 @@
+name: Scrape Tutor Packages
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    # Run every Monday at 2 AM UTC
+    - cron: '0 2 * * 1'
+
+jobs:
+  scrape-tutors:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'scraper-deps/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: scraper-deps
+      run: npm ci
+    
+    - name: Install Puppeteer dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          ca-certificates \
+          fonts-liberation \
+          libappindicator3-1 \
+          libatk-bridge2.0-0 \
+          libdrm2 \
+          libgtk-3-0 \
+          libnspr4 \
+          libnss3 \
+          libxcomposite1 \
+          libxdamage1 \
+          libxrandr2 \
+          xdg-utils \
+          libxss1 \
+          libxtst6
+    
+    - name: Run scraper
+      working-directory: scraper-deps
+      run: npm run scrape
+    
+    - name: Commit and push changes
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "action@github.com"
+        git add tutorPackages.json
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update tutor packages from automated scraping"
+        git push

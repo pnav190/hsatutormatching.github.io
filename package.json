@@ -1,0 +1,26 @@
+{
+  "name": "tutor-match-sync",
+  "version": "1.0.0",
+  "description": "Automatically sync tutor data from Google Sheets to the tutor matching application",
+  "main": "sync.js",
+  "scripts": {
+    "start": "node sync.js",
+    "dev": "nodemon sync.js",
+    "sync": "node sync.js",
+    "setup": "node setup.js",
+    "server": "node server.js",
+    "webhook": "node server.js"
+  },
+  "dependencies": {
+    "googleapis": "^128.0.0",
+    "fs-extra": "^11.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": ["google-sheets", "sync", "tutor", "data"],
+  "author": "Your Name",
+  "license": "MIT"
+} 

@@ -21,10 +21,11 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
+        cache-dependency-path: 'scraper-deps/package-lock.json'
     
     - name: Install dependencies
       working-directory: scraper-deps
-      run: npm ci
+      run: npm install
     
     - name: Install Puppeteer dependencies
       run: |

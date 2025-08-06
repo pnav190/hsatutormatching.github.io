@@ -47,8 +47,7 @@ jobs:
           libxtst6
     
     - name: Run scraper
-      working-directory: scraper-deps
-      run: NODE_PATH=./node_modules node ../scrapeTutors.js
+      run: NODE_PATH=./scraper-deps/node_modules node scrapeTutors.js
     
     - name: Commit and push changes
       run: |

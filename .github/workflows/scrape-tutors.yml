@@ -48,7 +48,7 @@ jobs:
     
     - name: Run scraper
       working-directory: scraper-deps
-      run: node ../scrapeTutors.js
+      run: NODE_PATH=./node_modules node ../scrapeTutors.js
     
     - name: Commit and push changes
       run: |

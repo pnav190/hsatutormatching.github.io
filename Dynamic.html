@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSA Tutoring | Tutor Matching</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/4/4a/Harvard_shield_wreath.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-crimson: #A51C30;
+      --primary-crimson-variant: #7B1422;
+      --accent-gold: #FFD700;
+      --neutral-dark: #2C3E50;
+      --neutral-dark-gray: #34495E;
+      --neutral-medium-gray: #7F8C8D;
+      --neutral-light-gray: #BDC3C7;
+      --neutral-off-white: #F8F9FA;
+      --neutral-white: #FFFFFF;
+      --background-primary: linear-gradient(135deg, #FDF5F6 0%, #F8F9FA 100%);
+      --background-secondary: #FFFFFF;
+      --font-primary: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      --font-fallback: Arial, sans-serif;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --spacing-2xl: 3rem;
+      --spacing-3xl: 4rem;
+      --spacing-4xl: 6rem;
+      --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.12);
+      --radius-small: 0.375rem;
+      --radius-medium: 0.5rem;
+      --radius-large: 1rem;
+      --radius-circular: 50%;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: var(--font-primary);
+      background: var(--background-primary);
+      color: var(--neutral-dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/4/4a/Harvard_shield_wreath.svg') repeat 0 0/200px 200px, var(--background-primary);
+      opacity: 0.025;
+      pointer-events: none;
+    }
+    .main-container {
+      padding: 0.5rem 0.5rem;
+      gap: 0.5rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .hero-section {
+      margin-bottom: 0.5rem;
+      padding-top: 0.5rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 800;
+      color: var(--primary-crimson);
+      margin-bottom: 0.3rem;
+      text-shadow: 0 2px 8px rgba(165,28,48,0.06);
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--neutral-dark-gray);
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: var(--spacing-md);
+      list-style: none;
+      justify-content: center;
+      margin: 0.5rem 0 0.5rem 0;
+      padding: 0;
+    }
+    .nav-tab {
+      position: relative;
+    }
+    .nav-tab button {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--neutral-medium-gray);
+      cursor: pointer;
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: var(--radius-small);
+      transition: all 0.2s;
+      outline: none;
+    }
+    .nav-tab button:hover, .nav-tab button:focus {
+      color: var(--primary-crimson);
+      background: var(--neutral-off-white);
+      box-shadow: 0 2px 8px rgba(165,28,48,0.08);
+      transform: translateY(-2px) scale(1.04);
+    }
+    .nav-tab button.active {
+      color: var(--primary-crimson);
+      background: var(--neutral-off-white);
+      font-weight: 700;
+    }
+    .form-container {
+      background: var(--background-secondary);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-medium);
+      padding: 0.7rem 0.7rem 1rem 0.7rem;
+      width: 100%;
+      max-width: 500px;
+      min-width: 0;
+      min-height: 0;
+      margin: 0 auto;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1.5px solid var(--neutral-light-gray);
+      position: relative;
+      overflow: visible;
+    }
+    .form-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary-crimson);
+      margin-top: 0.2rem;
+      margin-bottom: 0.7rem;
+      text-align: center;
+      letter-spacing: -0.01em;
+    }
+    .form-group {
+      margin-bottom: 0.7rem;
+      position: relative;
+    }
+    .form-label {
+      font-weight: 600;
+      color: var(--neutral-dark);
+      display: block;
+      margin-bottom: var(--spacing-xs);
+      font-size: 1rem;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      min-height: 2.2em;
+      text-align: left;
+      border: 1.5px solid var(--neutral-light-gray);
+      border-radius: var(--radius-medium);
+      font-size: 1rem;
+      font-family: var(--font-primary);
+      background: var(--neutral-off-white);
+      color: var(--neutral-dark);
+      transition: all 0.2s;
+      box-shadow: 0 1px 4px rgba(44,62,80,0.03);
+      outline: none;
+      display: block;
+      padding-left: 1em;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--primary-crimson);
+      box-shadow: 0 0 0 3px rgba(165, 28, 48, 0.12);
+    }
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: var(--neutral-medium-gray);
+      opacity: 1;
+      transition: color 0.2s;
+    }
+    .form-input:focus::placeholder, .form-textarea:focus::placeholder {
+      color: var(--primary-crimson-variant);
+      opacity: 0.7;
+    }
+    .submit-btn {
+      background: linear-gradient(90deg, var(--primary-crimson), var(--primary-crimson-variant));
+      color: var(--neutral-white);
+      border: none;
+      border-radius: var(--radius-medium);
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+      margin-top: 0.3rem;
+      box-shadow: 0 2px 8px rgba(165,28,48,0.08);
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .submit-btn:hover, .submit-btn:focus {
+      background: linear-gradient(90deg, var(--primary-crimson-variant), var(--primary-crimson));
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 4px 16px rgba(165, 28, 48, 0.18);
+    }
+    .submit-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .results-section {
+      margin-top: 0.5rem;
+      z-index: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .results-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary-crimson);
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .tutor-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .tutor-card {
+      width: 90%;
+      max-width: 90%;
+      margin: 0.3rem auto;
+      overflow-wrap: break-word;
+      background: var(--background-secondary);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-medium);
+      padding: 0.7rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1.5px solid var(--neutral-light-gray);
+      position: relative;
+      overflow: visible;
+    }
+    .tutor-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: var(--shadow-strong);
+    }
+    .tutor-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary-crimson);
+      margin-bottom: var(--spacing-xs);
+      text-align: left;
+    }
+    .tutor-detail {
+      font-size: 0.9rem;
+      color: var(--neutral-dark-gray);
+      margin-bottom: var(--spacing-xs);
+      text-align: left;
+    }
+    .tutor-detail strong {
+      color: var(--neutral-dark);
+    }
+    .tutor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tutor-header:hover {
+      opacity: 0.8;
+    }
+    .expand-arrow {
+      font-size: 1.2rem;
+      color: var(--primary-crimson);
+      transition: transform 0.3s;
+      cursor: pointer;
+      padding: var(--spacing-xs);
+      border-radius: var(--radius-small);
+    }
+    .expand-arrow:hover {
+      background: var(--neutral-off-white);
+    }
+    .expand-arrow.expanded {
+      transform: rotate(180deg);
+    }
+    .tutor-bio {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s, padding 0.3s;
+      background: var(--neutral-off-white);
+      border-radius: var(--radius-medium);
+      margin-top: var(--spacing-xs);
+    }
+    .tutor-bio.expanded {
+      max-height: 400px;
+      padding: var(--spacing-sm);
+      margin-top: var(--spacing-sm);
+    }
+    .tutor-bio-content {
+      max-height: 350px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-crimson) var(--neutral-light-gray);
+    }
+    .tutor-bio-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    .tutor-bio-content::-webkit-scrollbar-track {
+      background: var(--neutral-light-gray);
+      border-radius: 4px;
+    }
+    .tutor-bio-content::-webkit-scrollbar-thumb {
+      background: var(--primary-crimson);
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .tutor-bio-content::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-crimson-variant);
+    }
+    .tutor-bio-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--neutral-dark-gray);
+      padding-right: var(--spacing-sm);
+      overflow-wrap: break-word;
+    }
+    .match-highlight {
+      background: rgba(165, 28, 48, 0.1);
+      color: var(--primary-crimson);
+      font-weight: 600;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+    .no-results {
+      text-align: center;
+      color: var(--neutral-medium-gray);
+      font-weight: 500;
+      padding: var(--spacing-lg);
+      background: var(--neutral-off-white);
+      border-radius: var(--radius-large);
+    }
+    .pagination-container {
+      margin-top: 0.5rem;
+      text-align: center;
+      padding: 0.5rem;
+      background: var(--neutral-off-white);
+      border-radius: var(--radius-large);
+      border: 1px solid var(--neutral-light-gray);
+    }
+    .pagination-text {
+      font-size: 0.9rem;
+      color: var(--neutral-dark-gray);
+      margin-bottom: var(--spacing-xs);
+      font-weight: 500;
+    }
+    .load-more-btn {
+      background: linear-gradient(90deg, var(--primary-crimson), var(--primary-crimson-variant));
+      color: var(--neutral-white);
+      border: none;
+      border-radius: var(--radius-medium);
+      padding: var(--spacing-md) var(--spacing-xl);
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 200px;
+      box-shadow: 0 2px 8px rgba(165,28,48,0.08);
+    }
+    .load-more-btn:hover, .load-more-btn:focus {
+      background: linear-gradient(90deg, var(--primary-crimson-variant), var(--primary-crimson));
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 4px 16px rgba(165, 28, 48, 0.18);
+    }
+    .load-more-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .tutorocean-info-box {
+      background: var(--neutral-off-white);
+      border: 1.5px solid var(--neutral-light-gray);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-subtle);
+      max-width: 500px;
+      margin: 0.5rem auto;
+      padding: 0.7rem 0.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+    .tutorocean-info-text {
+      font-size: 1.05rem;
+      color: var(--neutral-dark-gray);
+      font-weight: 500;
+      margin-bottom: var(--spacing-xs);
+    }
+    .tutorocean-link {
+      font-size: 1rem;
+      color: var(--primary-crimson);
+      font-weight: 700;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .tutorocean-link:hover {
+      color: var(--primary-crimson-variant);
+    }
+    .booking-button {
+      background: linear-gradient(90deg, var(--primary-crimson), var(--primary-crimson-variant));
+      color: var(--neutral-white);
+      border: none;
+      border-radius: var(--radius-medium);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(165,28,48,0.08);
+      display: none;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .booking-button:hover, .booking-button:focus {
+      background: linear-gradient(90deg, var(--primary-crimson-variant), var(--primary-crimson));
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 4px 12px rgba(165, 28, 48, 0.15);
+    }
+    .booking-button:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .booking-button.visible {
+      display: block;
+    }
+    .tutor-details-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+    }
+    .tutor-details-left {
+      flex: 1;
+    }
+    .tutor-details-right {
+      flex-shrink: 0;
+    }
+    .form-textarea {
+      min-height: 120px;
+      padding-top: 1em;
+      padding-bottom: 1em;
+      resize: vertical;
+    }
+    @media (max-width: 600px) {
+      .main-container {
+        padding: 0.2rem 0.1rem;
+      }
+      .form-container {
+        max-width: 98vw;
+        padding: 0.5rem 0.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="main-container">
+    <section class="hero-section">
+      <ul class="nav-tabs">
+        <li class="nav-tab">
+          <button class="nav-btn active" data-section="college">College Counseling</button>
+        </li>
+        <li class="nav-tab">
+          <button class="nav-btn" data-section="satact">SAT/ACT</button>
+        </li>
+        <li class="nav-tab">
+          <button class="nav-btn" data-section="academics">General Academics</button>
+        </li>
+      </ul>
+    </section>
+    <section id="dynamic-form-section" class="form-container">
+      <!-- The form content will be injected here by JavaScript -->
+    </section>
+  </main>
+  <script>
+    // Tutor data (copied from rawtutor.html)
+    const tutors = [
+  
+  {
+    "name": "Harron Lee",
+    "grade": "2027",
+    "major": "Economics, Mind, Brain, and Behavior",
+    "tests": "ACT: 35",
+    "bio": "Harron Lee, from Pittsburgh, Pennsylvania, is a top-tier tutor with a remarkable academic and extracurricular background. Scoring an impressive 35 on the ACT and excelling as a varsity athlete in football and baseball during high school, Harron received over 10 baseball offers, including a commitment to MIT. He also demonstrated strong leadership as an executive leader for his school's largest pediatric cancer fundraiser. Currently, Harron is pursuing a degree in economics and mind, brain, and behavior at Harvard University, set to graduate in 2027. At Harvard, he serves as the Director of Recruitment for the Harvard Undergraduate Venture Capital Group and Treasurer for the Harvard Sports Analysis Collective.\n\nWith six years of experience tutoring math and science and two years in college application mentorship, Harron specializes in math up to AP Calculus BC and economics. Fluent in both Korean and English, he offers a diverse and effective tutoring approach. In his free time, Harron enjoys playing golf, engaging in poker games, and watching Netflix documentaries. His extensive experience, leadership skills, and diverse interests make him an exceptional tutor for students seeking to excel academically and succeed in getting into their dream schools.",
+    "subjects": "N/A",
+    "standardized": "ACT: 35",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/HarronLee",
+    "languages": "N/A"
+  },
+  {
+    "name": "Pascale Fung",
+    "grade": "2027",
+    "major": "Neurobiology",
+    "tests": "N/A",
+    "bio": "Pascale Fung is a Sophomore in Mather House planning to concentrate in Neurobiology. She is originally from San Diego, CA but now resides in Irvine, CA. Pascale loves to run, crochet, and cook in her free time. Her passions include uncovering the mystery of the human brain, educational outreach, and mentoring younger students. Pascale specializes in SAT/ACT prep and college counseling, though she also tutors in subjects such as human anatomy, math, and English. In high school, she focused on and received a 36 on the ACT, and also took the SAT once and received a 1570 before switching to the ACT. Her awards include the AP Scholar Award with Distinction and the Notre Dame Neuroscience Pre-College Program Scholarship, recognition as the Questbridge National College Match Finalist, and the ELC reward from the University of California as part of the top 9% of the state’s high school students. \n\nAt Harvard, she is currently VP of the HUMBB: Brain, part of the Socials board for Harvard Undergrad Mission: Brain, and writes for the Harvard Brain Journal. Over the summer, she conducted research with a UCI Neuroscience professor on the effects of adolescent stress on the post-parietal cortex’s ability to make long-term memories and shadowed UCI Health neurosurgeons in the local hospital. For fun, she dances with the Asian American Dance Troupe at Harvard, volunteers at the local Boston hospitals MGH and Brigham and Women’s, is a volunteer English teacher with the Phillips Brooks House Association, and, of course, tutors with HSA!\n",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/pascalefung",
+    "languages": "N/A"
+  },
+  {
+    "name": "Keira Adams",
+    "grade": "2027",
+    "major": "Neuroscience, African American Studies, Pre-med",
+    "tests": "N/A",
+    "bio": "Keira Adams is a member of the Harvard Class of 2027. She hopes to concentrate in Neuroscience with a secondary in African American Studies on the pre-med track. With over 1000 service hours completed in high school, she made it a priority to serve her community of El Paso, Texas. As the first Black Valedictorian of her district, Keira is comfortable with taking on academic challenges while being someone her community can rely on. Keira loves competitive organizations like HOSA, DECA, and FBLA in which she competed at the international level on multiple occasions for trivia and public speaking. Keira is comfortable teaching math up until Calculus 1, AP Chemistry, AP social studies, and introductory biology. Keira also hopes to get students into elite institutions through various mentorship programs. As a mentor in Harvard Association of Black Harvard Women and Harvard's Generational African American Student Association, she has helped her mentees achieve heights such as UPenn, Cornell, and Howard! Keira also serves as a Student Ambassador for Harvard's Global Health Institute. Over the summer of 2024, she worked as an intern at Partners In Health, a non-profit, social justice organization striving to make health care a human right for all people, starting with those who need it most. Fun fact: Keira has lived in the U.S. Virgin Islands, Dallas, New Orleans, Senegal, Northern Virginia and El Paso! Keira can't wait to get to know you as a person and your academic goals!",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/keiraadams",
+    "languages": "N/A"
+  },
+  {
+    "name": "Spencer Lee",
+    "grade": "2026",
+    "major": "Chemistry",
+    "tests": "N/A",
+    "bio": "Spencer Lee is a Junior currently attending Harvard College. Before coming to Harvard, he attended Seoul Foreign School, located in Seoul, South Korea.\nDuring in time in high school, he was involved in bolstering the mathematics tutoring program in his school's Mu Alpha Theta chapter as well as actively tutored fellow students throughout high school through his school's National Honor Society chapter. He has scored a 36 in all 4 ACT components as well as 800s on SAT Subject Tests in Mathematics II, Chemistry, Physics, and Korean (with listening.) He is bilingual (in English and Korean) and can also speak Chinese to an extent (having learned it for 6 years.)\nDuring his off time, Spencer likes to sing in the Harvard-Radcliffe Collegium Musicum, and do Taekwondo through the Harvard Taekwondo Club (both clubs of which he leads as of Fall 2024), as well as taking walks and biking around through the BlueBikes service.\nSpencer is a Chemistry concentrator and currently works in the Nocera Group as an undergraduate researcher. His favorite food is a bowl of Korean Buckwheat Noodles and his favorite genre of music is smooth jazz.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/spencerlee",
+    "languages": "N/A"
+  },
+  {
+    "name": "Hailey Krasnikov",
+    "grade": "2025",
+    "major": "Neuroscience, Economics",
+    "tests": "N/A",
+    "bio": "Hailey Krasnikov is a senior at Harvard College from Albany, NY double majoring in Neuroscience and Economics. In high school, Hailey was the Editor-in-Chief of her newspaper for two years as well as the Tournament Director for her school's chess club. At Harvard, she has been on The Harvard Crimson's Super Executive Board for two years and manages a group of 30 staffers. She also conducts clinical research at Boston Children's Hospital investigating eye pain and the effects of painful light. Hailey has experience tutoring college applications, college essays, a wide variety of high school subjects specializing in writing, math, and science, as well as APs such as Language and Composition, Psychology, Biology, World History, European History. Physics, U.S. History, and U.S. Government.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/hailey",
+    "languages": "N/A"
+  },
+  {
+    "name": "Cal Guia",
+    "grade": "2027",
+    "major": "Physics, Astrophysics",
+    "tests": "N/A",
+    "bio": "Cal is a member of Harvard’s Class of 2027 and is planning to concentrate in physics and math. He finished high school in the Philippines where he graduated as class valedictorian. For four years, he joined national olympiads in math, physics, and chemistry where he won a Bronze Medal. Also active in research competitions, Cal was awarded the Distinction Award in the International Space Challenge and presented his research about Mars at Arizona State University.\n\nCal has extensive tutoring experience in math and physics. Most notably, he has served as a coach of his high school’s olympiad team. In addition, Cal provides mentorship in US college admissions. In the most recent cycle alone, his non-profit organization helped Filipino students receive $7.9 million in scholarships/financial aid from schools like Harvard, Yale, and Princeton. In his free time, Cal likes to play Scrabble. He became the youngest member of the Philippine Scrabble team in 2021 and has also trained national-level players himself.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/cgguia",
+    "languages": "N/A"
+  },
+  {
+    "name": "Lamisa Mahmud",
+    "grade": "2026",
+    "major": "Neuroscience, Global Health & Policy",
+    "tests": "N/A",
+    "bio": "Lamisa ('26) is from Austin, Texas, and she is studying Neuroscience and Global Health & Policy. On campus, she's involved with Indigo Peer Counseling, Alzheimer's Buddies, research, tutoring, and Harvard's Synapse peer support group for individuals with traumatic brain injuries. In her free time, she likes to bake, read, exercise, and do video editing. In high school, Lamisa was the co-founder of her school's Research Club. She also placed multiple times at the Texas Science and Engineering Fair. In addition to research, she held a leadership position in many community service and leadership clubs, including NHS and Interact Club. Lamisa has three years of experience in tutoring students in algebra and writing (college application essays, argumentative essays, and research papers). From mentoring in the past, she has experience giving college-prep advice as well. She can also tutor students in high school Biology. ",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/lmahmud",
+    "languages": "N/A"
+  },
+  {
+    "name": "Darren Seto",
+    "grade": "2027",
+    "major": "Economics, Pre-med",
+    "tests": "N/A",
+    "bio": "Darren Seto is a student at Harvard, concentrating in Economics on a PreMedical Track. He has been involved in scientific research at Harvard Medical School for over 3 years and has published scientific papers on cardiovascular disease research. He was the President of the PreMedical Society, Captain of Science Team, and Captain of Boys' Tennis at Latin School. He has received Francis Gardner Medals for his work in Research and Prize Reading. He has been tutoring students privately over the last 3 years, and have gotten his students in T10 schools (Harvard, Stanford, Yale). He specializes in college counseling, passion project counseling, SAT prep, AP prep, school coursework prep, and more.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/darrenseto",
+    "languages": "N/A"
+  },
+  {
+    "name": "Ashley Vazquez Romo",
+    "grade": "2026",
+    "major": "Neurobiology, Human Evolutionary Biology, Pre-Med",
+    "tests": "N/A",
+    "bio": "Ashley Vazquez Romo is a rising junior from Las Vegas, Nevada studying Neurobiology and Human Evolutionary Biology on the pre-med track. Her long term goals include going to medical school and becoming a neurosurgeon, while her short-term goal is to support her students' goals. Ashley tutors college applications/essay mentoring, mathematics, standardized testing, science, and english. \n\nAshley holds the highest recorded GPA in Nevada at 6.6 out of 4.0. In high school, she earned a 35 on the ACT, completed research for a preventative opioid-vaccine with the American Chemical Society, and worked as a Data-Quality Analyst for a grassroots organization. During the college application process, she was admitted to Harvard, Yale, Princeton, Cornell, Brown, University of Pennsylvania, Dartmouth, USC, and more. ",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/ashleyvazquez",
+    "languages": "N/A"
+  },
+  {
+    "name": "Mariia Solovii",
+    "grade": "2027",
+    "major": "Economics, Government, Design",
+    "tests": "N/A",
+    "bio": "Mariia Solovii is a rising sophomore at Harvard College, studying Economics, Government, and Design. As an international student from Ukraine, she independently applied to 40 U.S.-based universities and received over $2,000,000 in scholarship funding from the schools that accepted her. Her application process has been transformative, and she is passionate about helping other students on their journeys by tutoring in SAT, IELTS, essay writing, general college consulting, and more.\n\nAs a tutor, Mariia firmly believes that an improved score depends not just on vocabulary and time management but also on learning concrete strategies to tackle each type of question. This innovative approach, focused on active understanding instead of blunt repetition, helped her, a non-native English speaker, achieve a 1570 on the SAT and an 8.0 on the IELTS exam.\n\nAs a college consultant, she has successfully guided students through university applications, securing grants from top institutions like Harvard, Yale, and Brown. Her approach hinges on teaching students ways to stand out and transform seemingly ordinary pursuits into characteristics noticed by admission officers. Mariia is excited to help others reach their goals, whether it's gaining admission to a dream college or achieving a high SAT score.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/mariiasolovii",
+    "languages": "N/A"
+  },
+  {
+    "name": "Miriam Hibbert",
+    "grade": "2026",
+    "major": "Chemistry, Ethnicity, Migration, Rights",
+    "tests": "N/A",
+    "bio": "Miriam is a Junior at Harvard University from New York City, concentrating in Chemistry while pursuing a secondary in Ethnicity, Migration, Rights. She is passionate about research, having begun her research career at Hunter College in high school, and she is currently doing research related to Green Chemistry, Sustainability, and Climate Change. Miriam is a Program Manager at a Tutoring Organization dedicated to serving underserved communities and does volunteer work primarily in the healthcare sector. She is also currently involved in the Harvard Health Policy Review as an associate editor, Harvard Society of Black Scientists and Engineers as Treasurer, and Harvard Indigo Magazine as Treasurer.  Miriam has experience tutoring in math and the sciences as well as english. In her free time she loves going on spontaneous adventures, reading, hiking, and playing the cello. ",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/MiriamH",
+    "languages": "N/A"
+  },
+  {
+    "name": "Brooke Decho",
+    "grade": "2026",
+    "major": "Environmental Science, Engineering",
+    "tests": "N/A",
+    "bio": "Brooke Decho is a junior at Harvard studying Environmental Science and Engineering with a language citation in Spanish. She attended Harlem Senior High School, where she was the valedictorian of the class of 2022. In addition to tutoring at Harvard, she is a member of the Harvard Model Congress, the Society of Women in Engineering, Alpha Phi, Women in Business Harvard Undergraduate Beekeeping Club, and the Crimson. She has experience tutoring in a variety of subjects, including English Language, SAT, ACT, AP Tests, College Counseling, Calculus, and more.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/brookedecho",
+    "languages": "N/A"
+  },
+  {
+    "name": "Grace Liu",
+    "grade": "2026",
+    "major": "Applied Mathematics, Psychology",
+    "tests": "N/A",
+    "bio": "Grace is originally from East Lyme, CT, and is a current junior ('26) at the college double concentrating in Applied Math (on the Biological Sciences Track) and Psychology. In high school, her extracurriculars focused on community service initiatives at the international level, varsity athletics, music (violin & viola), tutoring, and more! On campus, she is involved with the Harvard Biotechnology Club, Harvard Women Engineers in Code conference, Phillips Brooks House Association (community service), the Harvard Crimson, Alzheimer's Buddies, and Peer Advising. In her free time, she likes to swim, run, rock climb, weightlift, and do art! She can help tutor AP courses including Statistics, Calc AB/BC, Chemistry, Psychology, and Pre-Calculus. Also, she is well-experienced in college application & essay mentorship!",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/graceliu",
+    "languages": "N/A"
+  },
+  {
+    "name": "Trinh Nguyen",
+    "grade": "2025",
+    "major": "Neuroscience, Computer Science",
+    "tests": "N/A",
+    "bio": "Hi everyone! I'm Trinh, a senior at Harvard College living in Kirkland House! I am concentrating in Neuroscience, with a secondary in computer science, and a citation in Spanish. When I am not dancing to Taylor Swift in my room, you can find me biking along the Charles River, karaoking to One Direction, or jogging around Harvard Square!",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/trinhnguyen",
+    "languages": "N/A"
+  },
+  {
+    "name": "Ebun Oguntola",
+    "grade": "2027",
+    "major": "Mathematics, Computer Science, Music",
+    "tests": "N/A",
+    "bio": "Ebun is a sophomore at Harvard who plans on concentrating in Mathematics and Computer Science with a secondary in Music; she is also a Berklee dual-degree student for Film Scoring and Production. On campus, she is a violin member of the Harvard-Radcliffe Orchestra and a senior engineer on the technology team with Harvard Political Review. Within HSA tutoring, she primarily focuses on subjects of mathematics, especially SAT Math (in which she received a 770) & AP Calculus AB/BC (5s), along with traversal through the college application process from essays to interviews to filling out the Common Application.\n\nAs a composer, conductor, songwriter, producer, and multi-instrumentalist, she has been commissioned for works by professional artists and ensembles across the globe that has gotten her featured on NPR, The NY Times, and TEDx. One piece of hers was performed by a GRAMMY-award winning violinist, Johnny Gandelsman, with performances of the work at Carnegie Music Hall and The Wallis, featured on an album that reached No. 2 on the Billboard Traditional Classical Chart and was also featured in an NPR article, “Favorite Music of July,” alongside albums by Beyoncé and Maggie Rogers. She has also had a separate interview by Kevin Olusola, the beatboxer from the 3-time GRAMMY-Award winning group, Pentatonix, on NPR. In terms of combining mathematically-inclined endeavors with artistic experience, she created an app entirely from scratch, entitled NoteBox App, that aids emerging composers in sharing their music, receiving recordings, asking for questions, and collaborating with other musicians with additional experiences in computer science at other summer programs.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/ebun",
+    "languages": "N/A"
+  },
+  {
+    "name": "Rachel Fields",
+    "grade": "2027",
+    "major": "Physics, Mathematics",
+    "tests": "N/A",
+    "bio": "Rachel is a sophomore at Harvard College pursuing a degree in Physics and Mathematics with a minor in Government and Spanish. She has taught computer science and tutored STEM students for over four years. She scored a 1550 on the SAT and 36 on the ACT, as well as obtaining a 44 in the IB with a 7 in each of her classes: HL Mathematics Analysis and Approaches, HL Physics, HL Chemistry, HL Spanish B, SL Geography, and SL English Language & Culture. Rachel has also taken several AP classes placing her at the top of her high school class.\n\nIn high school, Rachel founded her school's Sustainability Club which went on to be internationally certified and she competed in debate, placing second to the Czech national team. At Harvard, she is on the board of Harvard Undergraduates for Environmental Justice, Harvard Hillel, and Harvard College Democrats. She is also an active member of the club swimming team. This summer, Rachel built lasers at a Harvard lab to further the search for dark matter. She will be presenting her research at a conference this Fall.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/rachelfields",
+    "languages": "N/A"
+  },
+  {
+    "name": "Allaura Osborne",
+    "grade": "2025",
+    "major": "Anthropology, History",
+    "tests": "N/A",
+    "bio": "Allaura Osborne is a senior studying Anthropology and History, focusing on Indigenous Studies. She is from Raleigh, NC, and was a weight and hammer thrower on the Harvard Track and Field team for the first two years of college. Although she studies the humanities, most of her tutoring experience has centered around math. She ran her own tutoring company in high school, taught over 35 students in various levels of math, and worked 30 hours a week. She has also done SAT/ACT tutoring. Aside from helping with subjects and standardized tests, she has helped many of her students with college applications and essay editing! One thing that sets her apart is she wants the students to excel at the subject she helps them in and become more confident in themselves!",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/Allaura",
+    "languages": "N/A"
+  },
+  {
+    "name": "Jenna Jiang",
+    "grade": "2028",
+    "major": "Government, Economics",
+    "tests": "N/A",
+    "bio": "Jenna Jiang is a current student at Harvard College studying Government and Economics from Illinois. She was extremely involved in Speech and Student Government in addition to being the president of the Illinois State Board of Education. She has experience in teaching students in History, English, and Essay Writing. Her expertise lies within crafting college applications and editing college essays/supplements. On campus, she is involved in CIVICS, the Harvard Association for US-China Relations, Harvard Political Review, and many others. She is thrilled to be able to be a part of your journey! ",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/jennajiang",
+    "languages": "N/A"
+  },
+  {
+    "name": "Tudor Terian-Dan",
+    "grade": "2028",
+    "major": "Economics, Computer Science",
+    "tests": "N/A",
+    "bio": "Tudor Terian-Dan (Teri) is a passionate student from Sibiu, Romania who has a lot of experience with the College Admissions process, including international and financial aid-specific issues. He is expected to graduate in 2028, with a double concentration in Economics and Computer Science.\n\nHis scores on relevant exams were SAT 1540 (740 English, 800 Maths), TOEFL 113 and Romanian Baccalaureate: Maths 9.75/10, Romanian 9.90/10, Computer Science 10/10.\n\nHe had experience in many different areas, some most meaningful accomplishments being the fact that he worked in the National Student Government of Romania for 3 years, he completed an intensive Computer Science and Mathematics track in high school, and he competed in many olympiads (Debate, Maths, Computer Science, History, Geography, English). Apart from this, he is also interested in arts and humanities.\n\nHe has a lot of experience explaining new concepts and working with students (his age and younger) and he usually finds it very easy to bond with people. He would also say that one of his greatest strengths is patience.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/terifive",
+    "languages": "N/A"
+  },
+  {
+    "name": "Kadyn Allen",
+    "grade": "2028",
+    "major": "Applied Mathematics",
+    "tests": "N/A",
+    "bio": "Kadyn is a class of 2028 student from Forsyth County, GA planning on concentrating in Applied Mathematics. In high school she was president of her school's Black Student Union and Mu Alpha Theta Chapter (Math Honor Society). She is currently a member of Harvard's Undergraduate Real Estate and Investment Group along with the \"Strong Women, Strong Girls\" mentorship program and multiple affinity groups. Outside of studying, she enjoys watching cartoons, baking, listening to music, and bingeing Netflix shows.\nAs a tutor, Kadyn specializes in college mentorship and math! As someone who has just recently gone through the college application process and was accepted into 4 of the 5 ivy league schools she applied to, Kadyn can give insight into the ever-changing facets that make a strong application. In high school, Kadyn participated in over 10 clubs while playing two sports and working a job weekly. Additionally, she dual-enrolled Linear Algebra and Multivariable Calculus through a program at Georgia Tech. In her journey through college, Kadyn aims not only to excel academically but also to empower others through her experiences and push them towards success.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/kadyn",
+    "languages": "N/A"
+  },
+  {
+    "name": "Charlotte de Jong",
+    "grade": "2028",
+    "major": "Chemistry",
+    "tests": "N/A",
+    "bio": "Charlotte is a freshman at Harvard College who loves Chemistry, soccer, judo, and songwriting. Born and raised in Hong Kong, she graduated from a local Mandarin primary school in 2017 and an international secondary school in 2024. Recently, she completed the IB 2024 Exams with a perfect score of 45/45 and achieved 800 Math, 770 Reading & Writing on the 2022 SAT Exam.\n\nIn Hong Kong, Charlotte founded Not So Serious Science, a weekend science program for refugee children, teaching over 100 kids both in-person and online over three years. She also captained and coached a soccer team of more than 25 students and taught judo to over 50 children. In addition to her academic and coaching pursuits, she writes Mando-pop songs under the name ZHONG LIAN, available on YouTube, Spotify, iTunes etc. (@zhongliancharlotte)\n\nAt Harvard, Charlotte plans to start a judo club, teaches piano lessons with PBHA Harmony, participates in Club Swim, and works on the Design Team for Datamatch. She also hopes to join Club Soccer once she has fully recovered from her fractured ankle.\n\nCharlotte can mentor students with college applications and essays for US and UK universities. She can teach the following subjects:\n\nIB: Chemistry HL/SL, Biology HL/SL, Economics HL/SL, Math AA SL, English LangLit SL, German B SL, Theory of Knowledge (TOK), Extended Essay (EE)\nSAT: Math, Reading & Writing\n\nAs a half-Dutch, half-Chinese-American 19-year-old, she is fluent in English, Mandarin, and Dutch, and can speak/read/write in German and Cantonese.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/charlottedejong",
+    "languages": "N/A"
+  },
+  {
+    "name": "Emiliano Gutierrez Berlanga",
+    "grade": "2028",
+    "major": "Government, History & Literature",
+    "tests": "N/A",
+    "bio": "Born in Piedras Negras, Mexico and raised in Arlington, Texas, Emiliano is a part of the class of 2028 at Harvard College. He is intending to concentrate in Government and History & Literature, with a focus on the field of Latin American Studies. He is also considering being pre-law and pursuing a secondary in Ethnicity, Migration, and Rights (EMR). At the college, he is a member of Candela's latin dance performance team, is currently comping the Harvard Undergraduate Legal Committee and Small Claims Advisory Service, a part of the board game and knitting clubs, and is a member of the various Latin American Affinity groups.\n\nThroughout high school, he took 18 AP exams, scored a 1450 and 32 on the SAT and ACT respectively, was class president (9th, 10th, 11th) and student body president (12th), and served on his school district's Student advisory board his junior year, where he later became co-president. When it comes to subject-specific tutoring, he is well qualified in core subjects like math, sciences, and english, scoring 5s and 4s on these AP exams. He also has personal experience applying (and being accepted) to selective programs such as MITES Semester, Dartmouth Bound, and CalTech Up Close as well as other selective colleges (Princeton, Yale, Dartmouth). Having dreamed of attending Harvard since 4th grade, he catered much of his pre-college academic career towards being a competitive applicant for selective colleges, and is prepared to help your student do the same in whatever stage of the application process they find themselves in. A jack-of-all-trades, Emiliano has vast public speaking and interview experience that he attributes to his ability to effectively and persuasively convey himself as a desirable applicant in his college applications.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/emiliano",
+    "languages": "N/A"
+  },
+  {
+    "name": "Rauf Nawaz",
+    "grade": "2028",
+    "major": "Economics, Social Studies",
+    "tests": "N/A",
+    "bio": "Rauf Nawaz is a freshman at Harvard College (Class of 2028), pursuing a double concentration in Economics and Social Studies. With aspirations to attend law school and a passion for justice, he founded and operates a legal aid foundation in Pakistan, providing pro bono legal representation to underprivileged individuals and advocating for equality in a system often inaccessible to marginalized communities.  \n\nRauf’s academic achievements reflect his commitment to excellence and intellectual rigor. He scored a 1530 on the SAT (780 Math, 730 English) and earned 13 A*s in O’ Levels along with 4 A*s and 2 As in A’ Levels—an ambitious courseload far exceeding the norm. His efforts were further recognized with a state-level distinction as \"Best Across 8- O' level Subjects.\"  \n\nIn high school, Rauf balanced academics with impactful leadership roles. As Head Boy of a 700-student body, he fostered community and accountability. As President of the Model UN Society, he led his team to a National Championship win, honing skills in diplomacy and collaboration.  \n\nNow at Harvard, Rauf is building on these experiences. He is involved in The Crimson, the Undergraduate Legal Committee, the Small Claims Advisory Service, the Harvard International Review, and the Policy Program at the Institute of Politics (IOP), pursuing opportunities that align with his passion for advocacy, critical thinking, and storytelling.  \n\nRauf also brings his dedication to mentorship into tutoring. Having worked with over 40 students during his time at a college counselling agency in Pakistan, he understands the challenges of academic and personal growth. He tutors mathematics, English, economics, and social studies, combining his academic expertise with empathy and a structured approach to help students succeed. For Rauf, teaching is more than academics—it’s about inspiring confidence and a sense of purpose in every student.  ",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/rauf",
+    "languages": "N/A"
+  },
+  {
+    "name": "Francesco Plastina",
+    "grade": "2028",
+    "major": "Physics, Neuroscience",
+    "tests": "N/A",
+    "bio": "Francesco Plastina is an international first-generation student in Harvard's Class of 2028, coming from Brindisi, a picturesque beach town in southern Italy. He plans to concentrate in Physics and Neuroscience, aspiring to become a scientist and explore the profound mysteries of the universe. At Harvard, Francesco is actively involved in various organizations, including the Society of Physics Students, Woodbridge International Society, STAHR (Student Astronomers at Harvard-Radcliffe), and Rethinking Economics. He is currently conducting research in the field of connectomics and previously interned at CERN, home to the world's largest particle accelerator. Francesco's passion for science was evident during high school, where he excelled in the Astronomy, Physics, and Neuroscience Olympiads, ranking among the top students in his country. Beyond academics, he has demonstrated a commitment to teaching and mentorship providing personalized tutoring in Math and Physics to peers in his grade, helping them improve their GPAs and successfully prepare for the Esame di Maturità, the rigorous final exam of the Italian high school system. \n\nAs the first person from his region, high school, and family to pursue undergraduate studies in the United States, Francesco navigated the college application process entirely on his own. He learned to write compelling essays, select meaningful extracurricular activities, and adapt to the differences between the American and Italian education systems. Drawing from this experience, Francesco is eager to help students from all backgrounds tackle the challenges of college applications, whether it's crafting essays or preparing for standardized tests.\n",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/frapla",
+    "languages": "N/A"
+  },
+  {
+    "name": "Vanessa Zhang",
+    "grade": "2028",
+    "major": "Applied Mathematics, Government",
+    "tests": "N/A",
+    "bio": "Vanessa Zhang is from Vancouver, Canada and will be graduating in 2028 with a concentration in Applied Mathematics in Government. In high school, Vanessa represented both Team Canada Golf and Team Canada Debate. She was the salutatorian of her class and earned First Class Honors with Distinction in all five years of high school. She was also an AP Scholar with Distinction. Vanessa had an SAT score of 790 in math and 760 in reading, with a combined score of 1550. An avid debater, she finished as the champion speaker of the Winter Holidays Open out of over 335 debaters and the 3rd best speaker at the Stanford World Schools Debating Championship out of over 230 people, placing as a quarterfinalist team in both tournaments. Moreover, Vanessa won British Parliamentary Debate Nationals as both a team and a speaker. Beyond academics, Vanessa is a top-ranked golfer and a member of Team Canada Golf for the third consecutive year. She has earned multiple accolades as a two-time Rolex AJGA All-American and has competed in elite events like the CPKC Women’s Open, the only LPGA tournament in Canada. As well, she helped Team Canada to win their first World Junior Girls Championship in 2023. She now plays for the Harvard Women’s Golf Team. Outside of her academic and athletic pursuits, Vanessa enjoys writing about pop culture, watching sunsets over the water, and reading about anything and everything. \n\nVanessa has 11 months of tutoring experience, specializing in teaching beginner and intermediate-level debate to middle and high school students. In her role, she has helped students develop critical thinking and rhetorical skills, building their confidence in their ability to participate in debates and discussions. In addition to her experience with debate, Vanessa is comfortable tutoring a variety of academic subjects, including math, French, English, microeconomics, and social studies. \n",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/vzhang",
+    "languages": "N/A"
+  },
+  {
+    "name": "Dino Perusko",
+    "grade": "2028",
+    "major": "Anthropology, Applied Mathematics",
+    "tests": "N/A",
+    "bio": "Dino Perusko is an international student from Labin, Croatia. He is a member of the Harvard class of 2028, potentially concentrating in Anthropology and Applied Math. In 2022, he won an ASSIST Scholarship to complete his junior year of high school in the United States which led him to apply to colleges in America. \nIn high school, he participated in theater, and many writing and math competitions. In his free time, he likes to build dry stone walls, preserving the intangible cultural heritage of Croatia that is protected by UNESCO.  Here at Harvard, he is a part of the editorial board of the Harvard Crimson, and Harvard Philosophy Review. \nAs an international student seeking financial aid who got into Harvard, Yale, Princeton, UPenn, Brown, Duke, and Amherst, he is well trained in college counselling and college essay editing. He also previously tutored in math and english and continues to do so.\n",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/istra",
+    "languages": "N/A"
+  },
+  {
+    "name": "Muhammad Zohaib Abbas",
+    "grade": "2028",
+    "major": "Biomedical Engineering, Computer Science, Film",
+    "tests": "N/A",
+    "bio": "Zohaib is a first-year student at Harvard University from Pakistan, pursuing a double concentration in Biomedical Engineering, Computer Science, and a secondary in Film. With a SAT score of 1480 and an academic background focused on STEM that includes 5 A*s in Cambridge O Levels (with a national distinction in Physics) and 3 A*s and 1 A in A Levels, Zohaib exemplifies academic excellence. He is also lead the first winner team of CERN’s prestigious Beam line for Schools competition from Pakistan, where he conducted advanced particle physics research at the European Organization for Nuclear Research.\n\nAs a tutor, Zohaib specializes in STEM subjects—Physics, Math, Biology, and Chemistry—bringing a deep understanding and enthusiasm to his teaching. He is also passionate about guiding students through the college application process, helping them craft compelling essays and excel in competitive academic environments. On campus, Zohaib is a dedicated member of The Crimson, where he combines his analytical and creative skills to produce impactful content that aligns with his broader storytelling and advocacy goals.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/Zohaib",
+    "languages": "N/A"
+  },
+  {
+    "name": "Nike Okafor",
+    "grade": "2027",
+    "major": "Neuroscience, Art, Film, Visual Studies",
+    "tests": "N/A",
+    "bio": "Nike Okafor is a sophomore in the Class of 2027 at Harvard College, where he is pursuing a dual concentration in Neuroscience and Art, Film, and Visual Studies. Hailing from Brooklyn, New York, Nike has demonstrated an exceptional academic track record, achieving a SAT score of 1540 and earning an outstanding 44/45 on the International Baccalaureate (IB) program. His IB achievements include top marks in a range of subjects, such as Mathematics (7), English Language and Literature (7), Physics (7), Biology (7), and History of the Americas (7), as well as a 6 in Spanish.  Additionally, Nike excelled in Advanced Placement courses, earning 5s in AP Computer Science A, AP Calculus BC, and AP Chemistry. An accomplished STEM tutor, Nike specializes in Mathematics, Science, and Computer Science, with proficiency in languages such as Java, HTML, CSS, JavaScript, Python, DMART/SQL, and Kotlin. He is also well-versed in test-taking strategies, having scored 110/150 on the American Mathematics Competition 10B and qualifying for the prestigious United States of America Mathematical Olympiad (USAMO) with a 9/15 on the American Invitational Mathematics Examination. Nike’s extracurricular pursuits have been equally impressive. He participated in the Governor’s STEM Scholar research program and contributed to his high school’s FIRST Robotics team. His leadership and dedication in these areas have shaped his academic and personal growth.\n\nIn addition to his academic and tutoring expertise, Nike is also highly skilled in college admissions counseling. He was accepted to ALL EIGHT Ivy League schools (Harvard Early Action Admissions), along with top institutions such as Stanford, MIT, and Caltech. With firsthand experience of the college admissions process, Nike is adept at guiding prospective applicants in crafting strong, compelling applications. He has mentored numerous peers through their application processes, helping them gain acceptance into competitive universities, including Duke and Columbia, by setting realistic goals and providing valuable insights into what top-tier colleges seek in applicants. Nike's multifaceted expertise, coupled with his commitment to mentoring others, makes him a highly valuable resource for students seeking guidance in both academic and college admissions pursuits.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/Nike",
+    "languages": "N/A"
+  },
+  {
+    "name": "Sophia Wang",
+    "grade": "2025",
+    "major": "History, Film Production",
+    "tests": "N/A",
+    "bio": "Sophia is a senior from New York City studying History (focus area on Economic History) and Film Production. She attended a competitive specialized public high school in the arts where she graduated in the top 5 out of 770 students, and she was accepted into top schools including Harvard, Princeton, Columbia, Cornell (Dyson Business), Georgetown (McDonough Business), Northwestern, NYU (Tandon Engineering), and Fordham (Gabelli Business, Presidential Scholar/Full Ride). At her arts school, she took a full honors and AP course load while also taking required classes in her visual art major. In high school, she helped co-found a recognized arts non-profit dedicated to bringing free arts resources to under-resourced communities in 25 countries across 6 continents and volunteered extensively with her local 4-H program to expand STEM opportunities to youth. She also played two varsity sports.\n\nShe has experience peer tutoring in subjects ranging from middle school/high school math to history to the arts. Her main areas of expertise are history, writing, and algebra. In college, she has served as both a Research Assistant and a Course Assistant, and has extensive experience editing papers for courses and for research. She also has experience mentoring students for the college application process, college portfolios, and transfer application essays. As a high school senior, she applied successfully with an arts supplementary portfolio.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/sophiawang",
+    "languages": "N/A"
+  },
+  {
+    "name": "Arjun Bhattarai",
+    "grade": "2025",
+    "major": "Economics, English",
+    "tests": "N/A",
+    "bio": "Arjun is a senior at Harvard College concentrating on Economics with a minor in English. He is passionate about labor economics, creative writing, and political philosophy, with academic interests spanning economic research, literature, and the humanities. Arjun has tutored hundreds of students worldwide, helping them with SAT preparation, research, business and entrepreneurship, creative writing, and college applications.\n\nOriginally from Nepal, Arjun has stories to share about lush green fields, the majestic Himalayas, and unique festivals. Before college, he debated in high school and interned at an English daily newspaper. At Harvard, he is active in a pro-bono consulting club, has worked with renowned global non-profits, served on the editorial board of The Harvard Crimson, and contributed to an organization focused on improving classroom experiences for marginalized and underprivileged students. Arjun finds immense joy in teaching and is always excited to work with his students.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/arjunbhattarai",
+    "languages": "N/A"
+  },
+  {
+    "name": "Jiajia Zhang",
+    "grade": "2027",
+    "major": "Human Evolutionary Biology, Chemistry",
+    "tests": "N/A",
+    "bio": "Jiajia Zhang is a Harvard University student (Class of 2027) from Boston, MA, pursuing a concentration in [Your Concentration]. With a stellar 1540 SAT (790 Math, 750 English) and a strong foundation in STEM, she is passionate about the life sciences, chemistry, math, and Chinese. On campus, she is a peer reviewer for The Harvard Undergraduate Research Journal (THURJ) and actively engages in research and tutoring.\n\nIn high school, Jiajia demonstrated both academic excellence and leadership, serving as Student Council President and Varsity Swim Captain. Now an Ironman athlete, she thrives on pushing her limits, balancing the demands of Ivy League academics with elite endurance training. Her drive, discipline, and commitment to excellence define both her academic and athletic pursuits.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/jiajiazhang",
+    "languages": "N/A"
+  },
+  {
+    "name": "Richard Poplawski",
+    "grade": "2028",
+    "major": "Neurobiology, Pre-Med",
+    "tests": "N/A",
+    "bio": "Richard Poplawski. He is from Clifton, New Jersey and is first year at Harvard. He is currently pursuing a concentration in Neurobiology, on the pre-med track. He plans to apply for medical school soon and aspires to become a surgeon. His academic profile includes having taken 10 AP courses throughout high school and earning a score of 1460 on his SAT, without super score. He loves golf, tennis, going on hikes, and swimming. He is currently a student-athlete on the swim team at Harvard, having already made the Ivy League Team as a freshman. He has experience tutoring. During his senior year of high school, he tutored juniors and seniors. He helped them better understand the concepts of AP Chemistry and AP Calculus as he had taken both classes his junior year and received A's in both. He also took 4 years of Spanish in high school, all the way up to the AP level and has continued his Spanish learning through his first year at Harvard. He is a great teacher and is able to tailor his teaching style to assist different types of learning. He is comfortable teaching chemistry, physics, biology, any level of math or statistics, Spanish (reading, writing, and speaking), and English reading/writing. Additionally, he can assist with the college app process and college essay.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/richardpoplawski",
+    "languages": "N/A"
+  },
+  {
+    "name": "Neeraja Kumar",
+    "grade": "2027",
+    "major": "Government, Statistics",
+    "tests": "N/A",
+    "bio": "Neeraja Kumar is a current sophomore at Harvard College living in Villa Park Illinois. She currently concentrates in Government and Statistics. She was part of Speech Team and DECA in high school. On campus, she is part of The Crimson, the College Events Board, and Harvard Radio Broadcasting. Other than this, she loves to explore Boston, read comics, and volunteers her time mentoring students in music. She has previously tutored through school and is comfortable tutoring a variety of subjects from History, Government, and Psychology to Math and Statistics. ",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/neerajakumar",
+    "languages": "N/A"
+  },
+  {
+    "name": "Moniola Odunsi",
+    "grade": "2026",
+    "major": "Economics, Computer Science",
+    "tests": "N/A",
+    "bio": "Moniola Odunsi is a junior at Harvard College (Class of 2026), concentrating in Economics with a secondary in Computer Science. Originally from North Potomac, Maryland, she attended The Madeira School in McLean, Virginia, where she graduated with a 4.0 GPA and earned a perfect 36 on the ACT (36 in Math, 36 in English, 35 in Reading, and 35 in Science). She was admitted to all 13 schools she applied to, including Stanford, MIT, Yale, and the University of Pennsylvania. In high school, she founded a podcast and website platform highlighting underrepresented minority leaders in entrepreneurship and served as Co-President of her school’s Business and Economics Club. She also founded her school's first TEDxYouth event and volunteered in various capacities, including for The Leukemia & Lymphoma Society.\n\nAt Harvard, Moniola is the Co-President of Harvard Undergraduate Ventures, the university’s largest student-run entrepreneurship and venture capital organization, and Co-Chair for Career Development at Harvard Undergraduate Women in Business, where she leads initiatives to equip women with resources, industry exposure, and networks to excel in business. She interned at McKinsey & Company last summer and will be interning at J.P. Morgan this summer. Moniola also has experience mentoring students in college admissions and standardized test preparation.\n\nShe has experience in college application mentorship and is comfortable tutoring for the ACT/SAT, Algebra I & II, Geometry, middle school math, Economic Principles, essay writing, and English. Her firsthand success in gaining admission to top universities makes her a valuable resource for students navigating the competitive college application process. Outside of academics, she enjoys playing tennis and creative writing.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/moniola",
+    "languages": "N/A"
+  },
+  {
+    "name": "Chloe McKain",
+    "grade": "2027",
+    "major": "Sociology, Data & Analytics",
+    "tests": "N/A",
+    "bio": "Chloe is a sophomore (class of 2027) studying sociology on the data & analytics track. She is from the capital city Trenton, New Jersey but attended high school in the small town of Pennington. At Harvard, she is the president of the Harvard Caribbean Club and enjoys volunteering with PBHA after school programs. In high school, Chloe's favorite extracurricular activities were founding and serving as president of her school's fashion club and playing on the tennis team. Some of her hobbies include drawing, crocheting, and cooking.\n\nChloe has worked with students of all ages ranging from first to twelfth grade, tutoring with three different elementary, middle, and high school after school programs in the Boston area. Chloe received a 1530 (750 Reading, 780 Math) on her SAT and received a 5 on the AP Euro, AP Lang, AP Lit, and AP Calc BC exams. She was also a member of the National Cum Laude Society, the National Art Honor Society, and the National French Honor Society.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/chloemckain",
+    "languages": "N/A"
+  },
+  {
+    "name": "Stan Blejwas ",
+    "grade": "2028",
+    "major": "Government, Computer Science",
+    "tests": "N/A",
+    "bio": "Stan Blejwas is a college freshman (co '28) from Mobile, AL. In high school, he scored a 34 on his ACT and was a national merit finalist (based on PSAT scores). His extracurriculars in high school revolved around languages, tutoring, volunteering, and soccer. He also participated in the US State Department's National Security Language Initiative (NSLI-Y) as well as the Youth Ambassadors program. \n\nCurrently, Stan is concentrating in government with a secondary in computer science. Outside of his courses, he is a research assistant for a professor doing a project on inter-ethnic relations in different global regions. He is also a writer for the Harvard Crimson (newspaper), and volunteers teaching students in local Boston. He also plays club soccer in his free time. Stan is comfortable tutoring in any courses, but is best suited for English and humanities courses, as well as college essays. He also has skill tutoring in Spanish. ",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/stanblejwas",
+    "languages": "N/A"
+  },
+  {
+    "name": "Axel Vega-Mancinas",
+    "grade": "2028",
+    "major": "Electrical Engineering",
+    "tests": "N/A",
+    "bio": "Axel is a sophomore at Harvard College, concentrating in Electrical Engineering. He grew up in Winchester, Virginia and has been tutoring since 2022, when he began working at Mathnasium, helping K-12 students develop their math skills.\nAxel has a strong background in mathematics, excelling in AP Calculus AB (Score: 5), AP Calculus BC, AP Statistics, and SAT Math (710). At the college level, he studied single-variable and multivariable calculus. He is comfortable teaching K-12 math, algebra, trigonometry, geometry, precalculus, AP Calculus AB & BC, multivariable calculus, AP Statistics, introductory physics, and college applications. Axel is also proficient in Spanish, possessing upper intermediate level Spanish skills.\nOutside of academics, Axel is involved in Harvard’s School of Engineering and Applied Sciences Society of Hispanic Professional Engineers (SEAS SHPE) as a member of the fundraising committee and is part of Harvard Engineers Without Borders (EWB). In the summer of 2024, he served as a mentor for the Crimson Summer Academy at Harvard University, supporting students in high school-level math, college applications, and academic development.\nDuring his senior year of high school, Axel was a student representative to the school board and briefly led advocacy efforts as the Winchester Chapter Lead of the Pride Liberation Project, consistently taking initiative.\nAxel is passionate about helping students reach their full learning potential, especially in math, where he believes anyone can succeed with patience, personalized instruction, and practice.\n",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/axelvm",
+    "languages": "N/A"
+  },
+  {
+    "name": "Abhigna Yella",
+    "grade": "2028",
+    "major": "Biomedical Engineering",
+    "tests": "N/A",
+    "bio": "Abhigna Yella is a Freshmen Undergraduate at the Harvard College, concentrating in Biomedical Engineering and the graduating class of 2028. She can mentor for future readiness and college applications, and is also a tutor for many subjects.\n\nShe is from Frisco, Texas, and in High School she graduated as Salutatorian and was a part of NJROTC (Navy Junior Reserve Officer Training Corps) and a co-author in the Research Labs at the University of Dallas Texas. She is currently a part of the Harvard Undergraduate Foreign Policy Initiative (Project: Synthetic Biology Development w/ NATO) and the Harvard Undergraduate Bioethics Communications Initiative (Project: Mental Health in the Medical Field).\n\nHer scores on college standardized testing include: SAT (1560; 800 Math & 760 Reading/Writing), ACT (34). Her AP Scores include: AP Calculus BC/AP Human Geography/AP World History/AP Seminar/AP Environmental Science/AP US History Exam/AP Biology/AP Statistics/AP US Government & Politics/AP Economics/AP English Literature & Composition/AP Language & Composition: 5 and AP Physics C: Electricity & Magnetism/AP Physics C: Mechanics/AP Chemistry/AP Physics/AP Spanish Language & Culture Exam: 4\n\nShe has had previous experience tutoring within her high school and for private clients. She is particularly suited for tutoring the following subjects: SAT, ACT, AP Exams, Math (Algebra, Pre-Cal, Calculus, Statistics), Sciences (Chemistry, Physics, Biology, Environmental Science, etc.), English (Reading, Writing), History (World, US, etc.), and Spanish (AP 4).",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/ayella",
+    "languages": "N/A"
+  },
+  {
+    "name": "Muhammed Khan",
+    "grade": "2028",
+    "major": "",
+    "tests": "N/A",
+    "bio": "My name is Muhammed Khan. I'm a first-year student at Harvard college concentrating in Mechanical Engineering. I graduated in 2024 from Talawanda High School in Oxford, OH. In high school, I was a National Merit Scholar. I scored a 1600 on the SAT, which I took during my junior year. My many extracurricular pursuits in high school included quantum physics research through a paid apprenticeship with the AEOP (leading to a presentation at the international Frontiers in Optics + Laser Science conference). I also did mock trial for four years, and was a co-captain of the varsity team my senior year. My sophomore year, I helped our team win the  Ohio State Championship for the first time in our school's history.\n\nNow at Harvard, I've taken rigorous coursework such as Multivariable Calculus, Computer-Aided Machine Design, and CS50,. I'm a board member of the Harvard Undergraduate Engineering Society (HUES). I'm also joining a research group that specializes in assisted movement technology, and I'm in the process of starting an undergraduate Moot Court team.\n\nI am comfortable tutoring in many areas. Based on my experience, I feel I would be able to provide excellent guidance for standardized test preparation, math, STEM subjects, etc.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "languages": "N/A"
+  },
+  {
+    "name": "Kiri-Anna Kingsbury Lee",
+    "grade": "2028",
+    "major": "Biology, Government",
+    "tests": "N/A",
+    "bio": "Kiri-Anna is a member of the class of 2028 from Boston, MA pursuing a double concentration in Biology and Government. In high school, she competed and awarded on the Model UN team, served as editor for her school newspaper, and worked as an award-winning documentary filmmaker with a studio in the Mountain West. She took 14 AP classes during high school, including Biology, Statistics, Psychology, English Literature, U.S. History, and many more (on which she scored 5s). She took the SAT once at 14 years old, scoring a 1550. Her cumulative unweighted high school GPA was a 4.00. She was accepted to every college that she applied to, with acceptance rates ranging from 3% to 11%. \nAt Harvard, she continues to compete on the Model UN team. She is currently writing for the Harvard International Review and participates in Harvard Financial Analysts Club. She works at the Harvard Office for Sustainability as a representative for the Resource Efficiency Program, applying data analytics to energy usage. She leads an active life, playing ice hockey and participating in regular excursions with the Harvard Outing Club. She has previously tutored middle and high schoolers for a breadth of AP classes and exams, English, science, and the SAT, helping students see their scores increase by upwards of 50% between first and second tries. She can't wait to meet you and help you achieve your academic goals! ",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/kk",
+    "languages": "N/A"
+  },
+  {
+    "name": "Stephen Hall-Nunez",
+    "grade": "2028",
+    "major": "Neuroscience, Pre-Med",
+    "tests": "N/A",
+    "bio": "Stephen is a neuroscience concentrator from New Haven, Connecticut. In high school, he was captain of his local FIRST Robotics Competition and Science Olympiad teams. He graduated salutatorian, with 5's on 11 AP exams and a 7 in IB Spanish. He got a 1590 on the SAT, and though he never took the ACT as a high schooler, he got a 34 on it in 7th grade for a talent search program. He was a National Merit Scholar, presidential scholarship candidate, and winner of several other national scholarships, and a participant in MIT's MITES Semester program. Now, as a rising sophomore at Harvard, he's been working his way through the pre-med requirements and is involved with the Harvard Undergraduate Research Association, Harvard Synapse (brain injury awareness/volunteer organization), and doing neuroscience lab work at a local hospital.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/stephenhallnunez",
+    "languages": "N/A"
+  },
+  {
+    "name": "Ryan Rhee",
+    "grade": "2026",
+    "major": "Economics, Sociology",
+    "tests": "N/A",
+    "bio": "Ryan Rhee is a highly experienced tutor from Seoul, South Korea, currently studying Economics and Sociology at Harvard University (Class of 2026). With a 1550 SAT score and perfect 5s on all his AP exams—including Research, Seminar, U.S. History, Language and Composition, Literature and Composition, Biology, and Psychology—Ryan brings both deep academic expertise and proven results. He has been tutoring for over six years through online agencies, National Honor Society, and a Korean-American SAT academy.\n\nRyan has helped students from all backgrounds—private and public U.S. schools, international schools, and ESL learners—boost SAT scores by as much as 500 points in just 10 sessions. He’s also successfully guided students to 5s in AP Literature, Language, and Research. Known for his flexible, engaging, and results-driven style, Ryan builds strong connections with students and adapts to their needs quickly. Outside of tutoring, he enjoys playing sports and doing community service. Whether it’s standardized tests, writing, or college counseling, Ryan brings a wealth of knowledge and a track record of excellence.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/ryanrhee",
+    "languages": "N/A"
+  },
+  {
+    "name": "Tehle Ross",
+    "grade": "2027",
+    "major": "Psychology, Government",
+    "tests": "N/A",
+    "bio": "Tehle is a sophomore (class of 2027) at Harvard studying Psychology and Government, with a language citation in Italian. Taking coursework spanning from creative writing to statistics, Tehle has maintained a 4.0 GPA and has received several awards recognizing her academic excellence, including the Detur Book Prize and the John Harvard Scholarship. At Harvard, she is the President of the Behavioral Strategy Group, Harvard’s premier behavioral economics organization, and gives tours and provides college mentorship to local Boston public school students through the Crimson Key Society. Originally from Baltimore, Maryland, Tehle completed the rigorous International Baccalaureate program at her public school and finished high school with a 5.3 weighted/4.0 unweighted GPA. While in high school, she was a National Merit Finalist and earned perfect scores on the Reading/Writing portions of the SAT (800) and ACT (36). She scored in the 99th percentile on both tests. She competed on her high school’s Mock Trial team, reaching the Maryland state championships, and played varsity soccer all four years.\n\nTehle is passionate about writing, which she considers her greatest skill. She loves the editing process, whether for students’ college applications or as an Editing Executive for Harvard’s student newspaper, The Crimson. As a college counselor, Tehle has helped her clients raise their SAT scores by 150+ points, discover their dream schools, and gain admission to top private, public, and international universities with merit scholarships, including Harvard, Duke, UPenn, Vanderbilt, UCLA, UC Berkeley, University of Cambridge, and more.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/tehleross",
+    "languages": "N/A"
+  },
+  {
+    "name": "Gabriel Lucas Saraiva Timoteo",
+    "grade": "2028",
+    "major": "Computer Science",
+    "tests": "N/A",
+    "bio": "Gabriel is a Computer Science concentrator set to graduate in 2028. He was born in Brazil, but has lived in Worcester, Massachusetts since February of 2017. In high school, Gabriel distinguished himself as both the founder and president of his school’s coding club and the captain and top scorer of the math team. His academic achievements are exceptional, scoring a remarkable 1500 on the SAT (700 in Reading/Writing and a perfect 800 in Math). Additionally, he scored a perfect 5 in the following AP exams: Statistics, Calculus BC, Computer Science A, and English Language and Composition.\n\nAt Harvard, Gabriel is part of the Brazilian association, the competitive club tennis team, and part of the Harvard Computer Society. He is highly proficient in tutoring all levels of high school math, including Algebra, Geometry, Calculus, and Statistics. Gabriel is also an expert in Python and Java and offers tutoring in AP Computer Science A. Additionally, he is well-equipped to help students prepare for the SAT, excelling in both the Math and Reading sections.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/gabrieltimoteo",
+    "languages": "N/A"
+  },
+  {
+    "name": "Nishi Patel",
+    "grade": "2028",
+    "major": "Molecular and Cellular Biology, Philosophy, Pre-Med",
+    "tests": "N/A",
+    "bio": "Nishi Patel is a rising sophomore at Harvard College this year. She was born and raised in India until she moved to Chicago suburbs three years ago, finishing most of her high school in India and then further half of high school in the States. She graduated Class of 2024 aiming to concentrate in Molecular and Cellular Biology with a secondary in Philosophy on the pre-medical track. Her top high school extracurriculars involved being the Managing Editor of her school newspaper, Teacher's Assistant for Chemistry Honors and AP Chemistry as well as being a founding board member of a local non-profit mental health organization. At Harvard, she is involved with The Harvard Undergraduate Research Journal as a Peer Reviewer and Designer, Harvard Dharma, the Hindu students club, as a Freshmen Representative, and a member of Orthopedics and Surgery Cohorts as well. She aims to start volunteering with Homeless Shelter and looks forward to being in a research lab in the fall. Her hobbies include reading, dancing and writing --- she has published two books on Amazon. \nShe has volunteered as a tutor before teaching STEM courses like Biology, Chemistry and Math. She also is willing to tutor creative writing as well. Her AP scores for AP Biology, Chemistry and Calculus BC were 5's in addition to another 5 on AP Psychology.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/nishipatel02",
+    "languages": "N/A"
+  },
+  {
+    "name": "Mary Catherine Hanafee LaPlante",
+    "grade": "2026",
+    "major": "Economics, Government",
+    "tests": "N/A",
+    "bio": "Mary Catherine Hanafee LaPlante is a senior at Harvard University studying Economics and Government. Originally from Lake Forest, Illinois, she scored a 1550 on the SAT and a 1500 on the PSAT. She is comfortable tutoring a wide range of subjects, including all levels of math up to AP Calculus BC. She is also well-versed in the sciences—especially Chemistry and Physics—and has a strong passion for History and the social sciences. She earned 5s on AP Calc BC, AP Environmental Science, AP Psychology, AP U.S. History, AP World History, and AP Human Geography.\n\nIn high school, Mary Catherine was the Illinois State Champion in Science Olympiad (Ecology), captain of the Varsity Lacrosse team, and the founder of a non-profit that successfully eliminated pesticides and herbicides from her local community’s public spaces. She also ran a successful college essay editing service for two years and has extensive experience helping students craft compelling personal statements and supplementals.\n\nAt Harvard, Mary Catherine conducts research with the Harvard Economics Department and is involved in cutting-edge AI research. She’s also been offered a full-time role at McKinsey & Company following graduation. With years of tutoring experience and a proven academic track record, Mary Catherine brings both subject expertise and mentorship to every student she works with.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/marycatherine",
+    "languages": "N/A"
+  },
+  {
+    "name": "Mahi Patel",
+    "grade": "2028",
+    "major": "Cognitive Neuroscience, Evolutionary Psychology, Pre-Med",
+    "tests": "N/A",
+    "bio": "Mahi is a dedicated tutor from Batavia, Ohio, and a member of Harvard’s Class of 2028. She is concentrating in Cognitive Neuroscience and Evolutionary Psychology with a secondary in South Asian Studies, and is on the pre-med track. In high school, Mahi earned a 36 on the ACT and scored 5s on a range of AP exams including Biology, Psychology, Environmental Science, Calculus AB, and English Literature & Composition. She has several years of experience tutoring classmates in both STEM and humanities subjects, and she now continues that work through afterschool programs at Harvard. Mahi is comfortable tutoring in subjects like Biology, Psychology, Math, English, and both the SAT and ACT, and she also enjoys helping students with college application essays.\n\nOutside of academics, Mahi is passionate about community service. In high school, she organized efforts to support pediatric cancer patients and provided mentorship to younger students. At Harvard, she leads the Community Care Collective, a group focused on building a supportive space for students on the pre-med track. She also mentors students learning to play the flute and enjoys exploring creative hobbies like embroidery in her free time. Mahi’s approach to tutoring is supportive and encouraging—she loves helping students find confidence in their abilities and reach their goals.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/Mahipatel",
+    "languages": "N/A"
+  },
+  {
+    "name": "Alyssa Rubio",
+    "grade": "2028",
+    "major": "Integrative Biology, History & Science, Pre-Med",
+    "tests": "N/A",
+    "bio": "Alyssa, originally from Austin, TX, is a dedicated member of Harvard College’s Class of 2028, concentrating in Integrative Biology with a double in History & Science on the pre-med track Passionate about STEM and deeply committed to a future in pediatric oncology, she brings over four years of hands-on medical experience to the table, holding both a Medical Assistant and EKG Technician license—making her uniquely equipped to mentor students with an eye toward the medical field. She is currently an incoming Course Assistant for Harvard’s Life and Physical Sciences A (LPSA), an intensive biology and general chemistry course, and is comfortable tutoring biology, chemistry, algebra, calculus, geometry, and English at both the high school and college level.\n\nIn high school, she was a four-year member of the varsity dance team, serving as president her senior year, and was elected Student Government Junior Class Vice President and later Senior Class President. On campus, she is involved in the Harvard Undergraduate Consulting Group, the pre-med society, PBHA's college application mentoring program, the First-Year Experience Office, and volunteers at Massachusetts General Hospital. As a choreographer with Expressions Dance Company, she finds joy in fusing movement with creativity. In her free time, she enjoys dancing, watercolor painting, exploring Boston with friends, and indulging in online shopping.\n\nWith a clear passion for mentorship, a wealth of real-world medical experience, and a deep academic foundation, Alyssa brings energy, empathy, and excellence to every tutoring session. She specializes in helping students build confidence in STEM subjects while offering insight into college applications, especially for aspiring pre-med students.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/alyssarubio",
+    "languages": "N/A"
+  },
+  {
+    "name": "Jimena Luque",
+    "grade": "2025",
+    "major": "Molecular and Cellular Biology, History of Art and Architecture",
+    "tests": "N/A",
+    "bio": "Jimena studied Molecular and Cellular Biology, and History of Art and Architecture at Harvard (class of 2025). While completing her primary and secondary studies in Lima, Peru, she danced competitively as part of her school's Peruvian folklore team, competed in and won multiple awards at collegiate Model United Nations conferences, and completed AP courses online since her school did not offer any honors classes (Biology: 5, Calc BC: 5, French: 5, English Language: did not take exam, Physics C: did not take exam, Chemistry: did not take exam). \n\nAt Harvard, Jimena does genetics research at the Murray lab (Harvard MCB), tutors for physics and biology classes (including 3 years as part of the course staff for Harvard's accelerated life sciences class, LS50), choreographs for a diverse array of student productions, and previously worked for Partners in Health at Harvard College as a leader and advocate for health justice. Given her extensive coursework and research experience in both science and art history, she is comfortable tutoring a range of subjects including biology, chemistry, physics, math, statistics and probability, modern and contemporary art, Spanish, French, and general reading/writing strategies.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/jimenaluque",
+    "languages": "N/A"
+  },
+  {
+    "name": "Mellen Masea",
+    "grade": "2026",
+    "major": "Economics",
+    "tests": "N/A",
+    "bio": "Mellen is a Junior at Harvard studying Economics and Global Health Policy. Mellen is very passionate about higher education and advancing college access opportunities for underrepresented minorities. Being an International student from Kenya, Mellen was able to apply independently to highly competitive colleges in the USA; I’m 2021, Mellen gained admission into 5 Ivy League universities namely Harvard, Princeton, Columbia, Brown, Dartmouth as well and Northwestern. This made her to master the art of college application. As such, Mellen is the founder of Writing Mistress College Solutions where she uses her talent in writing and storytelling to help students tell their story to admission officers. At Harvard, Mellen is actively involved in research at the Radcliffe Institute in which she does research on climate change. She is also a mentor for the Emerging Leaders Program at Harvard, a public service fellowship recipient, a peer advising fellow for first-year students, and a team lead at Harvard Consulting among other roles she continues to thrive in.Aside from college applications, Mellen has extensive experience working tutoring Mathematics, SAT, Economics, and Swahili. Mellen is currently interning at McKinsey & Company as a Business Analyst Intern Mellen intends to attend Harvard Business School for her MBA.\n\n",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/mellenmasea",
+    "languages": "N/A"
+  },
+  {
+    "name": "Aurora Castner",
+    "grade": "2027",
+    "major": "Psychology, Government",
+    "tests": "N/A",
+    "bio": "Aurora (Class of 2027) is from Conroe, Texas, where she graduated from the Academy of Science and Health Professions -- Conroe High School as one of the top students in a class of over 1,000. She is now a student at Harvard College studying Psychology and Government. Aurora scored at the top of her class with a perfect 4.0 unweighted GPA and a 5.28 weighted GPA. Her academic strengths include English, writing, history, and math.\n\nAt Harvard, Aurora is a Project Lead for two separate clubs -- Harvard's Global Research and Consulting Group and Harvard's Clean Energy Group’s Equity Department. Her passion for community-focused work continues through these roles, where she contributes to sustainable solutions and social equity initiatives.\n\nAurora’s college application essay—opening with the unforgettable line, “I was born in prison”—garnered national media attention (People Magazine, New York Post, KTVU, etc.) for its raw honesty, emotional depth, and powerful storytelling. Her ability to turn a deeply personal experience into a compelling narrative not only helped secure her acceptance to Harvard but also resonated with readers across the country. This recognition highlights her talent for utilizing and portraying life experiences with clarity, vulnerability, and purpose—an essential skill in the admissions process. Now, as a mentor and tutor, Aurora draws on that same insight to help students craft standout applications that reflect their authentic voice and unique story. Her lived experience gives her an unmatched perspective on how to guide students through the essay-writing process with empathy, structure, and impact.\n\nAurora specializes in college application strategies, essay writing, SAT-related math, english, and writing. She brings an energetic, organized, and deeply supportive presence to her students, and is committed to helping them discover their voice and stand out in the college admissions process.\n\nShe currently works with HSA Tutoring and is passionate about future work in law, policy, and advocacy.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/auroracastner",
+    "languages": "N/A"
+  },
+  {
+    "name": "Easton Singer",
+    "grade": "2026",
+    "major": "Mathematics",
+    "tests": "N/A",
+    "bio": "Easton Singer is a Senior at Harvard, studying Mathematics and Computer Science. He was a MATHCOUNTS State Champion and National Quarterfinalist, a 5x AIME qualifier, and a 2x USAMO qualifier. He has significant experience tutoring middle school and high school math and computer science, and as a MATHCOUNTS coach. In his free time, Easton enjoys playing piano and percussion, and he has played in the pit orchestra for several musicals and operas at Harvard. He aspires to earn a PhD in Mathematics and become a math professor.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/eastonsinger",
+    "languages": "N/A"
+  },
+  {
+    "name": "Folukemi Olufidipe",
+    "grade": "2025",
+    "major": "Economics",
+    "tests": "N/A",
+    "bio": "Folukemi Olufidipe is a 2025 graduate of Harvard, where she earned a A.B. in Economics with a secondary in Psychology. In high school, she served as the Student Government Historian and was a member of the Math Honor Society for six years. In high school, Folukemi took 13 APs, including AP Statistics, AP Calculus AB, AP Calculus BC, AP English Language and AP English Literature, scoring 5s on all exams. She also completed the AP Capstone Program, publishing her own research paper on feminism in the Marvel Cinematic Universe. She scored a 1500 on the SAT and a 35 on the ACT. She was accepted to Princeton, UPenn, Cornell as well as other schools. At Harvard, Folukemi held several leadership roles, including President of the Nigerian Student Association and House Represenative for the 2025 Class Committee. She was also a writer for the Harvard Undergraduate Law Review. She was a research assistant with the Kennedy School's Health Inequality Lab, helping publish a paper on healthcare policy in U.S. jails, and completed two summer internships: one with a top global law firm and one with a leading global consulting firm. Folukemi is passionate about tutoring, specializing in SAT/ACT prep and college admissions counseling. She is a member of the Columbia Law Class of 2030 through the Leadership Experience Admissions Deferral (LEAD) Fellowship Program.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/folukemiolufidipe",
+    "languages": "N/A"
+  },
+  {
+    "name": "Emily Sun",
+    "grade": "2026",
+    "major": "Major: Computer Science, Minor: Sociology",
+    "tests": "N/A",
+    "bio": "Emily Sun is a senior from Boston, MA concentrating in Computer Science with a minor in Sociology. In her time at college, Emily has served as the President of Harvard Computer Society, Director of Consulting for Harvard Product Lab and Peer Advising Fellow. She has also worked as a Teaching Assistant for Intro Computer Science and Discrete Math courses at Harvard. In her free time, Emily enjoys painting and baking. Emily tutors English, history, writing, math up to pre-calculus, computer science and standardized test prep!",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/emilysun",
+    "languages": "N/A"
+  },
+  {
+    "name": "Nicky Liu",
+    "grade": "2028",
+    "major": "Biomedical Engineering",
+    "tests": "N/A",
+    "bio": "Nicky is a sophomore at Harvard College studying Biomedical Engineering with a secondary in Economics. As an alum of NC School of Science and Math, she has years of prior experience with crafting curriculums for Pre-Calculus and led educational summer camps in programming and STEM experiments.\nShe is able to provide college counseling and tutor SAT (1560), Math (Algebra, AP Calc, Multi, Combinatorics), AP Biology, AP Statistics, Physics, and Programming. She’s deeply committed to helping students not only master STEM concepts, but truly enjoy the learning process.\nShe has also spent three summers in scientific research including cancer therapeutics with publication authorship. During high school, she partook and won awards in FIRST Robotics, Science Olympiad, Ethics Bowl, HOSA, TSA, Envirothon, and more.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/nickyliu",
+    "languages": "N/A"
+  },
+  {
+    "name": "Dhara Patel",
+    "grade": "2027",
+    "major": "Government & Integrative Biology ",
+    "tests": "N/A",
+    "bio": "Dhara (Class of 2027) is from Modesto, California, where she graduated from Modesto High School with a full International Baccalaureate (IB) Diploma. She tested in IB Higher Level English, Biology, and History, and Standard Level Physics, Chemistry, Spanish, and Mathematics (Analysis & Approaches). Her academic passions lay primarily in English, History, and Biology, earning strong marks, including a 6 in both English and History.\n\nDuring the COVID-19 pandemic, Dhara launched and founded her own community-based organization aimed at uniting different parts of Stanislaus County through service. She and her team designed and built white wooden hygiene boxes, constructed from locally donated wood, which they painted and placed in temporary housing facilities across the county. More than just meeting basic needs, the project empowered others in the community to contribute and take part in collective care.\n\nIn addition to her local efforts, Dhara worked with a healthcare nonprofit based in India, contributing to mobile medical clinics and advocating for greater awareness around global health disparities and access to care.\n\nHer leadership extended to education policy as well—she served as the Student Board Member for Modesto City Schools, representing over 30,000 students on the Board of Education.\n\nDhara specializes in biology, history, and government at all levels, and has a particular talent for guiding students through the college application essay process. She is passionate about helping students craft standout applications that reflect their unique voices.\n\nLooking ahead, Dhara hopes to pursue a career at the intersection of health policy and law.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/dharapatel",
+    "languages": "N/A"
+  },
+  {
+    "name": "Ben Kaufman",
+    "grade": "2028",
+    "major": "Applied Mathematics",
+    "tests": "N/A",
+    "bio": "Ben is an American living abroad in Germany and is a student at Harvard College, studying Math, Statistics, and German. He has been interested in math since the 8th grade, when he earned a perfect score of 5 on the AP Calculus BC exam. In high school, Ben kept up his journey into math by scoring an 800 on the SAT math section and taking nearly every math course available to him, from Calculus III and Linear Algebra to Complex Analysis. He also stayed busy with extracurriculars, especially through tutoring as Math Honor Society president and founding/overseeing his school's study hall tutoring period that served 200+ students, which gave him extensive background in math tutoring.\nHowever, Ben is also well-versed in the college application process. His primary expertise in applications is the essay section, both through the Common App and supplemental essays, by crafting a narrative based on what an applicant's profile looks like. His own essays helped him gain admission to Harvard, Stanford, and Dartmouth. He also is suited to mentor AP and SAT English, scoring 750 on the SAT reading section and 5s in both AP English Language and Literature. He currently writes News and Op-Eds for the Harvard Independent newspaper on campus, and enjoys the process of curating stories through writing.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/benkaufman",
+    "languages": "N/A"
+  },
+  {
+    "name": "Martin Bigil-Rico",
+    "grade": "2026",
+    "major": "Statistics and Computer Science",
+    "tests": "N/A",
+    "bio": "Martin Bigil-Rico is a rising senior at Harvard University studying Computer Science and Statistics. He attended a public magnet high school in Southern California, where he held leadership positions in five clubs and participated in several of the nation’s most prestigious summer STEM programs. Martin achieved a 1510 on the SAT and earned 5’s on AP exams including English Language and Composition, English Literature, Calculus BC, Physics C: Mechanics, and Microeconomics and Macroeconomics.\n\nAt Harvard, he co-founded SAT Daily, an app designed to help students access advanced SAT study resources; served as an editor for the campus Philosophy Review; and worked as a software developer for the Harvard Rocketry Club. He has extensive experience teaching the SAT, ACT, AP exams, and a wide range of academic subjects from English to Calculus, as well as providing college admissions coaching and essay support. His college counseling students have been accepted to top universities including Harvard, Princeton, Cornell, Carnegie Mellon, Notre Dame, Washington University in St. Louis, Boston University, UCLA, and UC Berkeley.",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/MartinBigil",
+    "languages": "N/A"
+  },
+  {
+    "name": "Eddie Lou",
+    "grade": "2028",
+    "major": "Psychology",
+    "tests": "N/A",
+    "bio": "Psychology",
+    "subjects": "N/A",
+    "standardized": "N/A",
+    "tutorocean": "https://hsatutoring.tutorocean.com/host/eddielou",
+    "languages": "N/A"
+  }
+
+  ];;
+
+    // Load tutor packages data
+    let tutorPackages = [];
+    
+    // Function to load tutor packages from JSON file
+    async function loadTutorPackages() {
+      try {
+        const response = await fetch('tutorPackages.json');
+        if (response.ok) {
+          tutorPackages = await response.json();
+          console.log(`Loaded ${tutorPackages.length} tutor packages`);
+        } else {
+          console.warn('Could not load tutorPackages.json, using fallback matching');
+        }
+      } catch (error) {
+        console.warn('Error loading tutor packages:', error);
+      }
+    }
+
+    // Function to find tutors by specific packages
+    function findTutorsByPackages(searchPackages) {
+      console.log('Searching for packages:', searchPackages);
+      console.log('Available tutor packages:', tutorPackages.length);
+      
+      if (!tutorPackages || tutorPackages.length === 0) {
+        console.log('No packages available, using fallback');
+        // Fallback to original subject matching if packages not available
+        return findTutorsBySubjects(searchPackages);
+      }
+
+      // Show original input and expanded version
+      const expandedInput = expandAbbreviations(searchPackages);
+      if (expandedInput !== searchPackages) {
+        console.log('Input expanded:', searchPackages, '→', expandedInput);
+      }
+
+      const searchTerms = extractKeywords(searchPackages);
+      console.log('Search terms after expansion:', searchTerms);
+      const matches = [];
+
+      for (const tutorPackage of tutorPackages) {
+        if (tutorPackage.error) continue; // Skip tutors with errors
+
+        let score = 0;
+        const matchedPackages = [];
+        const subjectsList = [];
+
+        // Search through packages (higher priority)
+        for (const searchTerm of searchTerms) {
+          for (const package of tutorPackage.packages) {
+            if (hasWordMatch(searchTerm, package)) {
+              score += 3; // Higher weight for exact package matches
+              matchedPackages.push(package);
+              if (!subjectsList.includes(package)) {
+                subjectsList.push(package);
+              }
+              console.log(`Match found: "${searchTerm}" in package "${package}"`);
+            }
+          }
+        }
+
+        // Find the original tutor data
+        const originalTutor = tutors.find(t => t.tutorocean === tutorPackage.url);
+
+        if (score > 0) {
+          if (originalTutor) {
+            console.log(`Found match for ${originalTutor.name}:`, subjectsList);
+            matches.push({
+              tutor: originalTutor,
+              score,
+              matchedPackages,
+              subjectsList: subjectsList.join(', '),
+              searchTerms
+            });
+          }
+        }
+      }
+
+      console.log('Total matches found:', matches.length);
+      return matches.sort((a, b) => b.score - a.score);
+    }
+
+    // Fallback function for subject matching (original logic)
+    function findTutorsBySubjects(subjects) {
+      // Show original input and expanded version
+      const expandedInput = expandAbbreviations(subjects);
+      if (expandedInput !== subjects) {
+        console.log('Fallback input expanded:', subjects, '→', expandedInput);
+      }
+
+      const searchTerms = extractKeywords(subjects);
+      console.log('Fallback search terms after expansion:', searchTerms);
+      
+      return tutors.map(tutor => {
+        let score = 0;
+        const matchedKeywords = [];
+        const subjectsList = [];
+
+        for (const term of searchTerms) {
+          if (hasWordMatch(term, tutor.subjects)) {
+            score += 2;
+            matchedKeywords.push(term);
+            if (!subjectsList.includes(term)) {
+              subjectsList.push(term);
+            }
+          }
+        }
+
+        return { tutor, score, matchedKeywords, subjectsList: subjectsList.join(', '), searchTerms };
+      }).filter(m => m.score > 0).sort((a, b) => b.score - a.score);
+    }
+
+    // Add formTemplates for dynamic form rendering
+    const formTemplates = {
+      college: `
+        <h2 class="form-title">College Counseling</h2>
+        <form id="college-form">
+          <div class="form-group">
+            <label for="college-interests" class="form-label">Your Interests/Activities</label>
+            <textarea id="college-interests" class="form-textarea" placeholder="Please list some of your activities and interests (e.g. Debate, Math, Music, Research) and recommended tutors will appear" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Find College Counseling Tutors</button>
+        </form>
+        <div id="college-results" class="results-section"></div>
+      `,
+      satact: `
+        <h2 class="form-title">SAT/ACT Preparation</h2>
+        <form id="satact-form">
+          <div class="form-group">
+            <label for="test-type" class="form-label">Which test?</label>
+            <select id="test-type" class="form-select" required>
+              <option value="" disabled selected>Select test</option>
+              <option value="SAT">SAT</option>
+              <option value="ACT">ACT</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="desired-score" class="form-label">Desired Score</label>
+            <input type="number" id="desired-score" class="form-input" min="400" max="1600" step="10" placeholder="e.g. 1500" required />
+          </div>
+          <button type="submit" class="submit-btn">Find SAT/ACT Tutors</button>
+        </form>
+        <div id="satact-results" class="results-section"></div>
+      `,
+      academics: `
+        <h2 class="form-title">General Academics</h2>
+        <form id="academics-form">
+          <div class="form-group">
+            <label for="academics-subjects" class="form-label">Subjects you need help with</label>
+            <textarea id="academics-subjects" class="form-textarea" placeholder="Please list the subjects or specific courses you need help with (e.g. History, Computer Science, Calculus AB, AP Chemistry) and recommended tutors will appear" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Find Academic Tutors</button>
+        </form>
+        <div id="academics-results" class="results-section"></div>
+      `
+    };
+
+    // Academic course abbreviation mapping
+    const courseAbbreviations = {
+      // AP Course Abbreviations
+      'APUSH': 'AP U.S. History',
+      'APWH': 'AP World History',
+      'APHG': 'AP Human Geography',
+      'AP Euro': 'AP European History',
+      'AP Lit': 'AP English Literature and Composition',
+      'AP Lang': 'AP English Language and Composition',
+      'AP Gov': 'AP U.S. Government and Politics',
+      'AP Comp Gov': 'AP Comparative Government and Politics',
+      'AP Bio': 'AP Biology',
+      'AP Chem': 'AP Chemistry',
+      'APES': 'AP Environmental Science',
+      'AP Phys 1': 'AP Physics 1',
+      'AP Phys 2': 'AP Physics 2',
+      'AP C Mech': 'AP Physics C: Mechanics',
+      'AP C E&M': 'AP Physics C: Electricity & Magnetism',
+      'AP Calc AB': 'AP Calculus AB',
+      'AP Calc BC': 'AP Calculus BC',
+      'AP Stats': 'AP Statistics',
+      'AP Psych': 'AP Psychology',
+      'AP Macro': 'AP Macroeconomics',
+      'AP Micro': 'AP Microeconomics',
+      'APCSA': 'AP Computer Science A',
+      'AP CSP': 'AP Computer Science Principles',
+      'AP Art': 'AP Studio Art',
+      'AP Music Theory': 'AP Music Theory',
+      
+      // General Course Abbreviations
+      'ELA': 'English Language Arts',
+      'Alg 1': 'Algebra 1',
+      'Alg 2': 'Algebra 2',
+      'Geo': 'Geometry',
+      'Precalc': 'Precalculus',
+      'Calc': 'Calculus',
+      'Bio': 'Biology',
+      'Chem': 'Chemistry',
+      'Phys': 'Physics',
+      'Env Sci': 'Environmental Science',
+      'Stats': 'Statistics',
+      'Comp Sci': 'Computer Science',
+      'Econ': 'Economics',
+      'Gov': 'Government',
+      'Lit': 'Literature',
+      'Lang': 'Language',
+      'Psych': 'Psychology',
+      'Hist': 'History',
+      'US Hist': 'U.S. History',
+      'World Hist': 'World History',
+      'Span': 'Spanish',
+      'Fr': 'French',
+      'Germ': 'German',
+      'Lat': 'Latin',
+      'Mand': 'Mandarin Chinese'
+    };
+
+    // Function to expand abbreviations in search input
+    function expandAbbreviations(input) {
+      let expandedInput = input;
+      
+      // Sort abbreviations by length (longest first) to avoid partial matches
+      const sortedAbbreviations = Object.keys(courseAbbreviations).sort((a, b) => b.length - a.length);
+      
+      for (const abbr of sortedAbbreviations) {
+        const fullName = courseAbbreviations[abbr];
+        // Use word boundaries to ensure we match complete abbreviations
+        const regex = new RegExp(`\\b${abbr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+        expandedInput = expandedInput.replace(regex, fullName);
+      }
+      
+      return expandedInput;
+    }
+
+    // Utility: extract keywords from a string with abbreviation expansion
+    function extractKeywords(str) {
+      // Filter out common words that don't represent subjects
+      const commonWords = new Set([
+        'i', 'need', 'help', 'with', 'and', 'or', 'the', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'of', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'must', 'shall', 'please', 'find', 'passionate', 'interested', 'looking', 'want', 'like', 'love', 'enjoy', 'study', 'learn', 'teach', 'tutor', 'tutoring', 'currently', 'school', 'about', 'include', 'participate', 'participated', 'participating', 'participates', 'into',
+        // Additional banned words/phrases
+        "i'm", "i've", "i'd", "i'll", "i'm", "always", "really", "mostly", "some", "somehow", "sometimes", "done", "doing", "take", "taken", "helping", "including", "but", "so", "my", "me", "our", "we", "us", "your", "you", "their", "they", "them", "who", "that", "which", "this", "those", "these", "what", "when", "where", "how", "why", "lot", "a lot", "free time", "in my free time", "interest", "interests", "background", "main", "hoping", "pursue", "kind of", "sort of", "co-founded", "active", "just", "now", "found"
+      ]);
+
+      // Expand abbreviations first
+      const expandedStr = expandAbbreviations(str);
+      
+      return expandedStr
+        .toLowerCase()
+        .replace(/-/g, ' ')
+        .replace(/[^a-z0-9\s]/g, '')
+        .split(/\s+/)
+        .filter(word => word.length > 0 && !commonWords.has(word));
+    }
+
+    function hasWordMatch(searchTerm, text) {
+      if (!searchTerm || !text) return false;
+      const lowerText = text.toLowerCase();
+      const lowerSearchTerm = searchTerm.toLowerCase();
+      
+      // Check for exact word match with word boundaries
+      const wordBoundaryRegex = new RegExp(`\\b${lowerSearchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      if (wordBoundaryRegex.test(lowerText)) return true;
+      
+      // Check for variations (plurals, etc.)
+      const variations = getWordVariations(lowerSearchTerm);
+      for (const variation of variations) {
+        const variationRegex = new RegExp(`\\b${variation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+        if (variationRegex.test(lowerText)) return true;
+      }
+      
+      // Enhanced matching for AP courses and expanded course names
+      if (searchTerm.includes('AP ') || searchTerm.includes('U.S.') || searchTerm.includes('World History') || 
+          searchTerm.includes('English Literature') || searchTerm.includes('English Language')) {
+        
+        // Split the course name into parts and check if key parts are present
+        const courseParts = searchTerm.toLowerCase().split(/\s+/);
+        const textParts = lowerText.split(/\s+/);
+        
+        // For AP courses, check if "AP" and the subject are both present
+        if (searchTerm.toLowerCase().startsWith('ap ')) {
+          const apSubject = searchTerm.toLowerCase().replace('ap ', '').trim();
+          if (lowerText.includes('ap') && lowerText.includes(apSubject)) {
+            return true;
+          }
+        }
+        
+        // Check if all major parts of the course name are found
+        const majorParts = courseParts.filter(part => 
+          part.length > 2 && !['and', 'the', 'of', 'in', 'for'].includes(part)
+        );
+        
+        if (majorParts.length > 0) {
+          const matchingParts = majorParts.filter(part => 
+            textParts.some(textPart => textPart.includes(part) || part.includes(textPart))
+          );
+          
+          // If more than half the major parts match, consider it a match
+          if (matchingParts.length >= Math.ceil(majorParts.length / 2)) {
+            return true;
+          }
+        }
+      }
+      
+      // For package matching, be more strict - but allow general subject matches
+      if (lowerText.includes('tutoring') || lowerText.includes('math') || lowerText.includes('science')) {
+        // If searching for a general subject like "math", match the category
+        if (lowerSearchTerm === 'math' && lowerText.includes('math')) return true;
+        if (lowerSearchTerm === 'science' && lowerText.includes('science')) return true;
+        if (lowerSearchTerm === 'english' && lowerText.includes('english')) return true;
+        if (lowerSearchTerm === 'history' && lowerText.includes('history')) return true;
+        
+        // For specific subjects, check the specific subject part
+        const subjectPart = lowerText.split('-').pop()?.trim() || lowerText;
+        if (subjectPart.includes(lowerSearchTerm)) return true;
+      }
+      
+      return false;
+    }
+    function areTermsEquivalent(term1, term2) {
+      const lowerTerm1 = term1.toLowerCase();
+      const lowerTerm2 = term2.toLowerCase();
+      if (lowerTerm1 === lowerTerm2) return true;
+      const mathTerms = ['math', 'mathematics', 'mathematical'];
+      if (mathTerms.includes(lowerTerm1) && mathTerms.includes(lowerTerm2)) return true;
+      return false;
+    }
+    function getWordVariations(word) {
+      const variations = [];
+      const lowerWord = word.toLowerCase();
+      
+      // Handle plurals
+      if (lowerWord.endsWith('y')) {
+        variations.push(word.slice(0, -1) + 'ies');
+      } else if (lowerWord.endsWith('s') || lowerWord.endsWith('sh') || lowerWord.endsWith('ch') || lowerWord.endsWith('x') || lowerWord.endsWith('z')) {
+        variations.push(word + 'es');
+      } else {
+        variations.push(word + 's');
+      }
+      
+      // Handle verb forms (past tense, present participle, gerund)
+      if (lowerWord.endsWith('e')) {
+        variations.push(word + 'd');
+        variations.push(word + 'ing');
+      } else if (lowerWord.endsWith('y')) {
+        variations.push(word.slice(0, -1) + 'ied');
+        variations.push(word.slice(0, -1) + 'ying');
+      } else if (lowerWord.endsWith('t')) {
+        // For words ending in 't' like 'tutor'
+        variations.push(word + 'ed');
+        variations.push(word + 'ing');
+        variations.push(word + 's');
+      } else {
+        variations.push(word + 'ed');
+        variations.push(word + 'ing');
+      }
+      
+      // Handle -tion words
+      if (lowerWord.endsWith('tion')) {
+        variations.push(word.replace(/tion$/, 'te'));
+        variations.push(word.replace(/tion$/, 'ting'));
+      }
+      
+      // Handle common verb patterns
+      if (lowerWord.endsWith('ing')) {
+        // If word ends with 'ing', add base forms
+        const base = word.slice(0, -3);
+        variations.push(base);
+        variations.push(base + 'ed');
+        variations.push(base + 's');
+      } else if (lowerWord.endsWith('ed')) {
+        // If word ends with 'ed', add base forms
+        const base = word.slice(0, -2);
+        variations.push(base);
+        variations.push(base + 'ing');
+        variations.push(base + 's');
+      } else if (lowerWord.endsWith('s') && !lowerWord.endsWith('ss')) {
+        // If word ends with 's' (plural), add singular
+        const singular = word.slice(0, -1);
+        variations.push(singular);
+        variations.push(singular + 'ed');
+        variations.push(singular + 'ing');
+      }
+      
+      // Special cases for common words
+      if (lowerWord === 'math') {
+        variations.push('mathematics');
+        variations.push('mathematical');
+      } else if (lowerWord === 'mathematics') {
+        variations.push('math');
+        variations.push('mathematical');
+      } else if (lowerWord === 'mathematical') {
+        variations.push('math');
+        variations.push('mathematics');
+      } else if (lowerWord === 'tutor') {
+        variations.push('tutoring');
+        variations.push('tutors');
+      } else if (lowerWord === 'tutoring') {
+        variations.push('tutor');
+        variations.push('tutors');
+      } else if (lowerWord === 'tutors') {
+        variations.push('tutor');
+        variations.push('tutoring');
+      }
+      
+      return variations;
+    }
+
+    function matchTutors(formData) {
+      let matches = [];
+      if (formData.type === 'college') {
+        const interests = extractKeywords(formData.interests);
+        matches = tutors.map(tutor => {
+          let score = 0;
+          const matchedKeywords = [];
+          const majorMatches = [];
+          for (const interest of interests) {
+            if (hasWordMatch(interest, tutor.major)) {
+              score += 3;
+              majorMatches.push(interest);
+              if (!matchedKeywords.some(keyword => areTermsEquivalent(keyword, interest))) {
+                matchedKeywords.push(interest);
+              }
+            } else if (hasWordMatch(interest, tutor.bio || '')) {
+              score += 1;
+              if (!matchedKeywords.some(keyword => areTermsEquivalent(keyword, interest))) {
+                matchedKeywords.push(interest);
+              }
+            }
+          }
+          const uniqueMatches = matchedKeywords.length;
+          const breadthBonus = uniqueMatches * 1.0;
+          score += breadthBonus;
+          return { tutor, score, matchedKeywords, searchTerms: interests, majorMatches };
+        }).filter(m => m.score > 0).sort((a, b) => b.score - a.score);
+      } else if (formData.type === 'satact') {
+        // Enhanced SAT/ACT matching with soft score bins and performance tiers
+        const qualifyingTutors = tutors.filter(tutor => {
+          const testExp = tutor.tests && tutor.tests.toUpperCase().includes(formData.testType);
+          const standardizedExp = tutor.standardized && tutor.standardized.toUpperCase().includes(formData.testType);
+          
+          // Only include tutors who have the required test experience
+          if (!testExp && !standardizedExp) return false;
+          
+          // Filter out tutors with insufficient scores
+          if (formData.testType === 'SAT') {
+            const satScores = tutor.tests && tutor.tests.match(/(\d{3,4})/g);
+            if (satScores) {
+              const maxSatScore = Math.max(...satScores.map(Number));
+              if (maxSatScore < 1500) return false;
+            }
+          } else if (formData.testType === 'ACT') {
+            const actScores = tutor.tests && tutor.tests.match(/(\d{1,2})/g);
+            if (actScores) {
+              const maxActScore = Math.max(...actScores.map(Number));
+              if (maxActScore < 34) return false;
+            }
+          }
+          
+          return true;
+        });
+
+        if (qualifyingTutors.length === 0) {
+          return [];
+        }
+
+        // Extract and validate scores
+        const tutorsWithScores = qualifyingTutors.map(tutor => {
+          let scoreMatch = null;
+          if (formData.testType === 'SAT') {
+            scoreMatch = tutor.tests && tutor.tests.match(/(\d{3,4})/g);
+          } else if (formData.testType === 'ACT') {
+            scoreMatch = tutor.tests && tutor.tests.match(/(\d{1,2})/g);
+          }
+          
+          if (scoreMatch) {
+            const scores = scoreMatch.map(Number).filter(s => {
+              if (formData.testType === 'SAT') return s >= 400 && s <= 1600;
+              if (formData.testType === 'ACT') return s >= 1 && s <= 36;
+              return false;
+            });
+            
+            if (scores.length > 0) {
+              const bestScore = Math.max(...scores);
+              return { tutor, bestScore, scoreDifference: Math.abs(bestScore - formData.score) };
+            }
+          }
+          return null;
+        }).filter(t => t !== null);
+
+        if (tutorsWithScores.length === 0) {
+          return [];
+        }
+
+        // Define soft score bins and performance tiers
+        const isSAT = formData.testType === 'SAT';
+        const softBinRange = isSAT ? 30 : 1;
+        const maxScore = isSAT ? 1600 : 36;
+        const minScore = isSAT ? 400 : 1;
+
+        // Create performance tiers based on score ranges
+        const tier1Range = isSAT ? 50 : 2;  // Very close to desired score
+        const tier2Range = isSAT ? 100 : 4; // Moderately close to desired score
+        const tier3Range = isSAT ? 200 : 8; // Further from desired score
+
+        // Categorize tutors into tiers
+        const tier1 = [];
+        const tier2 = [];
+        const tier3 = [];
+
+        tutorsWithScores.forEach(tutorData => {
+          const { scoreDifference } = tutorData;
+          
+          if (scoreDifference <= tier1Range) {
+            tier1.push(tutorData);
+          } else if (scoreDifference <= tier2Range) {
+            tier2.push(tutorData);
+          } else if (scoreDifference <= tier3Range) {
+            tier3.push(tutorData);
+          }
+        });
+
+        // Shuffle tutors within each tier for random rotation
+        function shuffleArray(array) {
+          const shuffled = [...array];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+          return shuffled;
+        }
+
+        const shuffledTier1 = shuffleArray(tier1);
+        const shuffledTier2 = shuffleArray(tier2);
+        const shuffledTier3 = shuffleArray(tier3);
+
+        // Select tutors using weighted probabilities
+        const selectedTutors = [];
+        const tier1Weight = 0.7;
+        const tier2Weight = 0.3;
+        const tier3Weight = 0.1; // Optional tier
+
+        // Calculate how many tutors to select from each tier
+        const totalTutorsNeeded = 6;
+        let tier1Count = Math.floor(totalTutorsNeeded * tier1Weight);
+        let tier2Count = Math.floor(totalTutorsNeeded * tier2Weight);
+        let tier3Count = totalTutorsNeeded - tier1Count - tier2Count;
+
+        // Adjust counts based on available tutors in each tier
+        if (shuffledTier1.length < tier1Count) {
+          tier2Count += tier1Count - shuffledTier1.length;
+          tier1Count = shuffledTier1.length;
+        }
+        if (shuffledTier2.length < tier2Count) {
+          tier3Count += tier2Count - shuffledTier2.length;
+          tier2Count = shuffledTier2.length;
+        }
+        if (shuffledTier3.length < tier3Count) {
+          tier3Count = shuffledTier3.length;
+        }
+
+        // Add tutors from each tier
+        selectedTutors.push(...shuffledTier1.slice(0, tier1Count));
+        selectedTutors.push(...shuffledTier2.slice(0, tier2Count));
+        selectedTutors.push(...shuffledTier3.slice(0, tier3Count));
+
+        // If we don't have 6 tutors, expand the range incrementally
+        if (selectedTutors.length < 6) {
+          const remainingNeeded = 6 - selectedTutors.length;
+          const allTutors = [...tutorsWithScores];
+          
+          // Remove already selected tutors
+          const selectedTutorNames = new Set(selectedTutors.map(t => t.tutor.name));
+          const remainingTutors = allTutors.filter(t => !selectedTutorNames.has(t.tutor.name));
+          
+          // Sort remaining tutors by score difference and add the closest ones
+          remainingTutors.sort((a, b) => a.scoreDifference - b.scoreDifference);
+          selectedTutors.push(...remainingTutors.slice(0, remainingNeeded));
+        }
+
+        // Convert to the expected format with scores
+        matches = selectedTutors.map(tutorData => {
+          const { tutor, bestScore, scoreDifference } = tutorData;
+          const hasQualifyingScore = bestScore >= formData.score;
+          
+          if (hasQualifyingScore) {
+            return { tutor, score: 1 + (bestScore - formData.score) / 100, bestScore };
+          } else {
+            const proximityScore = Math.max(0.1, 1 - (scoreDifference / (isSAT ? 200 : 20)));
+            return { tutor, score: proximityScore, bestScore };
+          }
+        });
+
+        // Sort by score for display
+        matches.sort((a, b) => b.score - a.score);
+        
+        // Calculate total qualifying tutors (all tutors that meet the score requirements)
+        const totalQualifyingTutors = tutorsWithScores.length;
+        
+        // Return selected matches but with correct total count
+        return matches.map((match, index) => ({
+          ...match,
+          totalMatches: totalQualifyingTutors,
+          isDisplayed: index < 6
+        }));
+      } else if (formData.type === 'academics') {
+        // Use package-based matching for more precise academic tutoring
+        matches = findTutorsByPackages(formData.subjects);
+      }
+      return matches;
+    }
+
+    function renderResults(tutors, resultsId) {
+      const resultsDiv = document.getElementById(resultsId);
+      resultsDiv.innerHTML = '';
+      if (!tutors.length) {
+        resultsDiv.innerHTML = '<div class="no-results">No matching tutors found. Try broadening your input!</div>';
+        return;
+      }
+      
+      // Get total matches count (for SAT/ACT, this might be different from displayed tutors)
+      const totalMatches = tutors[0]?.totalMatches || tutors.length;
+      
+      const resultsTitle = document.createElement('h3');
+      resultsTitle.className = 'results-title';
+      resultsTitle.textContent = `Found ${totalMatches} matching tutor${totalMatches > 1 ? 's' : ''}`;
+      resultsDiv.appendChild(resultsTitle);
+      resultsDiv.setAttribute('data-all-tutors', JSON.stringify(tutors));
+      
+      // For SAT/ACT, show only the first 6 tutors, for others show all up to 6
+      const tutorsToShow = resultsId === 'satact-results' 
+        ? tutors.filter(t => t.isDisplayed).slice(0, 6)
+        : tutors.slice(0, 6);
+      renderTutorGrid(tutorsToShow, resultsDiv, resultsId);
+      
+      // Always show pagination for SAT/ACT, and for others if more than 6 tutors
+      if (resultsId === 'satact-results' || tutors.length > 6) {
+        addPagination(resultsDiv, totalMatches, resultsId, 6);
+      }
+    }
+    function renderTutorGrid(tutorsToShow, resultsDiv, resultsId) {
+      const existingGrid = resultsDiv.querySelector('.tutor-grid');
+      if (existingGrid) existingGrid.remove();
+      const tutorGrid = document.createElement('div');
+      tutorGrid.className = 'tutor-grid';
+      tutorsToShow.forEach((match, index) => {
+        const tutor = match.tutor;
+        const tutorCard = document.createElement('div');
+        tutorCard.className = 'tutor-card';
+        const tutorHeader = document.createElement('div');
+        tutorHeader.className = 'tutor-header';
+        tutorHeader.innerHTML = `
+          <div class="tutor-name">${tutor.name}</div>
+          <div class="expand-arrow">▼</div>
+        `;
+        const tutorDetails = document.createElement('div');
+        tutorDetails.className = 'tutor-details-container';
+        
+        const detailsLeft = document.createElement('div');
+        detailsLeft.className = 'tutor-details-left';
+        let detailsHTML = `
+          <div class="tutor-detail"><strong>Graduation Year:</strong> ${tutor.grade}</div>
+          <div class="tutor-detail"><strong>Major(s):</strong> ${tutor.major}</div>
+          <div class="tutor-detail"><strong>SAT/ACT:</strong> ${tutor.tests || 'N/A'}</div>
+        `;
+        if (resultsId === 'academics-results' && match.subjectsList) {
+          detailsHTML += `<div class="tutor-detail"><strong>Subjects/Courses:</strong> ${match.subjectsList}</div>`;
+        }
+        detailsLeft.innerHTML = detailsHTML;
+        
+        const detailsRight = document.createElement('div');
+        detailsRight.className = 'tutor-details-right';
+        
+        const bookingButton = document.createElement('button');
+        bookingButton.className = 'booking-button';
+        bookingButton.textContent = 'Free Consultation';
+        bookingButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (tutor.tutorocean) {
+            window.open(tutor.tutorocean, '_blank');
+          }
+        });
+        
+        detailsRight.appendChild(bookingButton);
+        tutorDetails.appendChild(detailsLeft);
+        tutorDetails.appendChild(detailsRight);
+        const tutorBio = document.createElement('div');
+        tutorBio.className = 'tutor-bio';
+        let bioText = tutor.bio || 'No bio available.';
+        if (match.searchTerms && match.searchTerms.length > 0) {
+          const searchTerms = match.searchTerms || [];
+          const matchedKeywords = match.matchedKeywords || [];
+          const keywordsToHighlight = [...new Set([...searchTerms, ...matchedKeywords])];
+          const allHighlightTerms = new Set();
+          keywordsToHighlight.forEach(keyword => {
+            allHighlightTerms.add(keyword);
+            const variations = getWordVariations(keyword);
+            variations.forEach(variation => allHighlightTerms.add(variation));
+          });
+          const highlightPatterns = Array.from(allHighlightTerms).map(term => {
+            const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            return new RegExp(`\\b${escapedTerm}\\b`, 'gi');
+          });
+          highlightPatterns.forEach(pattern => {
+            bioText = bioText.replace(pattern, '<span class="match-highlight">$&</span>');
+          });
+        }
+        tutorBio.innerHTML = `
+          <div class="tutor-bio-content">
+            <div class="tutor-bio-text">${bioText}</div>
+          </div>
+        `;
+        tutorCard.appendChild(tutorHeader);
+        tutorCard.appendChild(tutorDetails);
+        tutorCard.appendChild(tutorBio);
+        tutorHeader.addEventListener('click', () => {
+          const arrow = tutorHeader.querySelector('.expand-arrow');
+          const bio = tutorCard.querySelector('.tutor-bio');
+          const bookingButton = tutorCard.querySelector('.booking-button');
+          if (bio.classList.contains('expanded')) {
+            bio.classList.remove('expanded');
+            arrow.classList.remove('expanded');
+            bookingButton.classList.remove('visible');
+          } else {
+            bio.classList.add('expanded');
+            arrow.classList.add('expanded');
+            bookingButton.classList.add('visible');
+          }
+        });
+        const bioContent = tutorCard.querySelector('.tutor-bio-content');
+        if (bioContent) {
+          let isScrolling = false;
+          let scrollVelocity = 0;
+          let lastScrollTop = 0;
+          let animationFrame;
+          bioContent.addEventListener('scroll', () => {
+            if (!isScrolling) {
+              isScrolling = true;
+            }
+            const currentScrollTop = bioContent.scrollTop;
+            scrollVelocity = currentScrollTop - lastScrollTop;
+            lastScrollTop = currentScrollTop;
+            if (animationFrame) {
+              cancelAnimationFrame(animationFrame);
+            }
+            const applyInertia = () => {
+              if (Math.abs(scrollVelocity) > 0.1) {
+                scrollVelocity *= 0.95;
+                bioContent.scrollTop += scrollVelocity;
+                animationFrame = requestAnimationFrame(applyInertia);
+              } else {
+                isScrolling = false;
+                scrollVelocity = 0;
+              }
+            };
+            setTimeout(() => {
+              if (!isScrolling) {
+                animationFrame = requestAnimationFrame(applyInertia);
+              }
+            }, 50);
+          });
+          bioContent.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = e.deltaY;
+            bioContent.scrollTop += delta * 0.5;
+          }, { passive: false });
+        }
+        tutorGrid.appendChild(tutorCard);
+      });
+      resultsDiv.appendChild(tutorGrid);
+    }
+    function addPagination(resultsDiv, totalTutors, resultsId, pageSize = 6) {
+      const existingPagination = resultsDiv.querySelector('.pagination-container');
+      if (existingPagination) existingPagination.remove();
+      const paginationContainer = document.createElement('div');
+      paginationContainer.className = 'pagination-container';
+      const paginationText = document.createElement('p');
+      paginationText.className = 'pagination-text';
+      paginationText.textContent = `Showing 1-${Math.min(pageSize, totalTutors)} of ${totalTutors} tutors`;
+      const loadMoreButton = document.createElement('button');
+      loadMoreButton.className = 'load-more-btn';
+      loadMoreButton.textContent = 'View All Tutors';
+      loadMoreButton.addEventListener('click', () => {
+        window.open('https://hsatutoring.tutorocean.com/search/list?sortBy=recommended', '_blank');
+      });
+      paginationContainer.appendChild(paginationText);
+      paginationContainer.appendChild(loadMoreButton);
+      resultsDiv.appendChild(paginationContainer);
+    }
+
+    // Attach form listeners after rendering
+    function attachFormListeners(section) {
+      if (section === 'college') {
+        document.getElementById('college-form').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const interests = document.getElementById('college-interests').value.trim();
+          if (!interests) {
+            alert('Please enter your interests/activities.');
+            return;
+          }
+          const formData = { type: 'college', interests };
+          const results = matchTutors(formData);
+          renderResults(results, 'college-results');
+        });
+      } else if (section === 'satact') {
+        document.getElementById('satact-form').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const testType = document.getElementById('test-type').value;
+          const scoreInput = document.getElementById('desired-score').value;
+          if (!testType) {
+            alert('Please select a test type.');
+            return;
+          }
+          const score = parseInt(scoreInput, 10);
+          if (testType === 'SAT') {
+            if (isNaN(score) || score < 400 || score > 1600) {
+              alert('Please enter a valid SAT score between 400 and 1600.');
+              return;
+            }
+          } else if (testType === 'ACT') {
+            if (isNaN(score) || score < 1 || score > 36) {
+              alert('Please enter a valid ACT score between 1 and 36.');
+              return;
+            }
+          } else {
+            alert('Invalid test type.');
+            return;
+          }
+          const formData = { type: 'satact', testType, score };
+          const results = matchTutors(formData);
+          renderResults(results, 'satact-results');
+        });
+        const testTypeSelect = document.getElementById('test-type');
+        const desiredScoreInput = document.getElementById('desired-score');
+        if (testTypeSelect && desiredScoreInput) {
+          testTypeSelect.addEventListener('change', function() {
+            if (this.value === 'SAT') {
+              desiredScoreInput.placeholder = 'e.g. 1500';
+              desiredScoreInput.min = 400;
+              desiredScoreInput.max = 1600;
+              desiredScoreInput.step = 10;
+            } else if (this.value === 'ACT') {
+              desiredScoreInput.placeholder = 'e.g. 34';
+              desiredScoreInput.min = 1;
+              desiredScoreInput.max = 36;
+              desiredScoreInput.step = 1;
+            } else {
+              desiredScoreInput.placeholder = '';
+            }
+          });
+        }
+      } else if (section === 'academics') {
+        document.getElementById('academics-form').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const subjects = document.getElementById('academics-subjects').value.trim();
+          if (!subjects) {
+            alert('Please enter the subjects you need help with.');
+            return;
+          }
+          const formData = { type: 'academics', subjects };
+          const results = matchTutors(formData);
+          renderResults(results, 'academics-results');
+        });
+      }
+    }
+
+    // Initialize the application
+    function initializeApp() {
+      // Load tutor packages data
+      loadTutorPackages();
+      
+      // Initial render
+      const dynamicFormSection = document.getElementById('dynamic-form-section');
+      dynamicFormSection.innerHTML = formTemplates.college;
+      attachFormListeners('college');
+      
+      const navButtons = document.querySelectorAll('.nav-btn');
+      navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          navButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          const section = button.dataset.section;
+          dynamicFormSection.innerHTML = formTemplates[section];
+          attachFormListeners(section);
+        });
+      });
+    }
+
+    // Test function for abbreviation detection (can be called from browser console)
+    function testAbbreviationDetection() {
+      const testCases = [
+        'APUSH',
+        'APWH',
+        'AP Lit',
+        'AP Lang',
+        'AP Bio',
+        'AP Chem',
+        'AP Calc AB',
+        'AP Calc BC',
+        'AP Stats',
+        'AP Psych',
+        'AP Macro',
+        'AP Micro',
+        'APCSA',
+        'AP CSP',
+        'AP Art',
+        'AP Music Theory',
+        'ELA',
+        'Alg 1',
+        'Alg 2',
+        'Geo',
+        'Precalc',
+        'Calc',
+        'Bio',
+        'Chem',
+        'Phys',
+        'Env Sci',
+        'Stats',
+        'Comp Sci',
+        'Econ',
+        'Gov',
+        'Lit',
+        'Lang',
+        'Psych',
+        'Hist',
+        'US Hist',
+        'World Hist',
+        'Span',
+        'Fr',
+        'Germ',
+        'Lat',
+        'Mand'
+      ];
+      
+      console.log('=== Testing Abbreviation Detection ===');
+      testCases.forEach(testCase => {
+        console.log(`\nTesting: "${testCase}"`);
+        const expanded = expandAbbreviations(testCase);
+        const keywords = extractKeywords(testCase);
+        console.log(`Expanded: "${expanded}"`);
+        console.log(`Keywords: [${keywords.join(', ')}]`);
+      });
+      console.log('=== End Testing ===');
+    }
+
+    // Start the application when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
+</body>
+</html> 

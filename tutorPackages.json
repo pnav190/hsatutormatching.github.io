@@ -2,12 +2,37 @@
   {
     "url": "https://hsatutoring.tutorocean.com/host/HarronLee",
     "name": "‌",
-    "packages": []
+    "packages": [
+      "Math Tutoring - Elementary School",
+      "Math Tutoring - Middle School",
+      "Economics Tutoring - AP Microeconomics",
+      "College Counseling",
+      "Economics Tutoring - AP Macroeconomics",
+      "AP Test Private Tutoring",
+      "Pre-Algebra Private Tutoring",
+      "Prep Time",
+      "Workshop"
+    ]
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/pascalefung",
     "name": "‌",
-    "packages": []
+    "packages": [
+      "ACT",
+      "Math Tutoring - Elementary School",
+      "Math Tutoring - Algebra 1",
+      "English Tutoring - Literature & Comprehension",
+      "SAT",
+      "College Counseling",
+      "Science & Technology Tutoring - Psychology",
+      "AP Test Private Tutoring",
+      "Pre-Algebra Private Tutoring",
+      "Other",
+      "PSAT Private Tutoring",
+      "Workshop",
+      "English Tutoring - Writing - Academic Focus",
+      "English Tutoring - Writing - Research Focus"
+    ]
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/keiraadams",
@@ -17,7 +42,14 @@
   {
     "url": "https://hsatutoring.tutorocean.com/host/spencerlee",
     "name": "‌",
-    "packages": []
+    "packages": [
+      "ACT",
+      "Math Tutoring - Geometry & Trigonometry",
+      "Science & Technology Tutoring - Physics",
+      "SAT",
+      "Science & Technology Tutoring - Chemistry",
+      "PSAT Private Tutoring"
+    ]
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/hailey",
@@ -187,7 +219,31 @@
   {
     "url": "https://hsatutoring.tutorocean.com/host/kadyn",
     "name": "‌",
-    "packages": []
+    "packages": [
+      "ACT",
+      "Math Tutoring - Elementary School",
+      "Math Tutoring - Middle School",
+      "Math Tutoring - Pre-calculus",
+      "Math Tutoring - AP Calculus AB",
+      "Math Tutoring - AP Calculus BC",
+      "Math Tutoring - Algebra 1",
+      "Math Tutoring - Algebra 2",
+      "Math Tutoring - Geometry & Trigonometry",
+      "Science & Technology Tutoring - Biology",
+      "English Tutoring - Literature & Comprehension",
+      "Math Tutoring - Multivariable Calculus (Calc 3)",
+      "Math Tutoring - Linear Algebra",
+      "SAT",
+      "College Counseling",
+      "Economics Tutoring - AP Macroeconomics",
+      "Science & Technology Tutoring - Environmental Science",
+      "AP Test Private Tutoring",
+      "Pre-Algebra Private Tutoring",
+      "PSAT Private Tutoring",
+      "English Tutoring - Public Speaking",
+      "English Tutoring - Writing - Academic Focus",
+      "English Tutoring - Writing - Research Focus"
+    ]
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/charlottedejong",
@@ -409,10 +465,14 @@
       "Math Tutoring - Algebra 2",
       "Math Tutoring - Geometry & Trigonometry",
       "SAT",
+      "College Counseling",
       "Language Tutoring - AP Spanish",
       "Science & Technology Tutoring - Psychology",
       "Prep Time",
-      "Workshop"
+      "Workshop",
+      "Math Tutoring - Calculus",
+      "Math Tutoring - AP Statistics",
+      "Science & Technology Tutoring - AP Psychology"
     ]
   },
   {
@@ -476,26 +536,7 @@
   {
     "url": "https://hsatutoring.tutorocean.com/host/ryanrhee",
     "name": "‌",
-    "packages": [
-      "Math Tutoring - Elementary School",
-      "Math Tutoring - Middle School",
-      "Math Tutoring - Pre-calculus",
-      "Math Tutoring - AP Calculus AB",
-      "Math Tutoring - Algebra 1",
-      "Science & Technology Tutoring - Biology",
-      "English Tutoring - Literature & Comprehension",
-      "SAT",
-      "College Counseling",
-      "Economics Tutoring - AP Macroeconomics",
-      "Science & Technology Tutoring - Psychology",
-      "AP Test Private Tutoring",
-      "Pre-Algebra Private Tutoring",
-      "Other",
-      "PSAT Private Tutoring",
-      "English Tutoring - Public Speaking",
-      "English Tutoring - Writing - Academic Focus",
-      "English Tutoring - Writing - Research Focus"
-    ]
+    "packages": []
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/tehleross",
@@ -528,8 +569,8 @@
       "English Tutoring - Public Speaking",
       "Advanced Placement",
       "Math Tutoring - Calculus",
-      "Science & Technology Tutoring - AP Chemistry",
       "Science & Technology Tutoring - AP Biology",
+      "Science & Technology Tutoring - AP Chemistry",
       "Science & Technology Tutoring - AP Psychology"
     ]
   },
@@ -664,17 +705,13 @@
       "Math Tutoring - Elementary School",
       "Math Tutoring - Middle School",
       "Math Tutoring - Pre-calculus",
-      "Math Tutoring - AP Calculus BC",
       "Science & Technology Tutoring - Computer Science",
-      "Economics Tutoring - AP Microeconomics",
       "Language Tutoring - Mandarin",
       "Math Tutoring - Algebra 1",
       "Math Tutoring - Algebra 2",
       "Math Tutoring - Geometry & Trigonometry",
       "Math Tutoring - Statistics and Probability",
       "Science & Technology Tutoring - Physics",
-      "Math Tutoring - Multivariable Calculus (Calc 3)",
-      "Math Tutoring - Linear Algebra",
       "SAT",
       "College Counseling",
       "Science & Technology Tutoring - Chemistry",

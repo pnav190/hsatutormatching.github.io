@@ -248,7 +248,13 @@
   {
     "url": "https://hsatutoring.tutorocean.com/host/charlottedejong",
     "name": "‌",
-    "packages": []
+    "packages": [
+      "Math Tutoring - Elementary School",
+      "Math Tutoring - Middle School",
+      "Math Tutoring - Pre-calculus",
+      "SAT",
+      "Science & Technology Tutoring - Chemistry"
+    ]
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/emiliano",
@@ -569,8 +575,8 @@
       "English Tutoring - Public Speaking",
       "Advanced Placement",
       "Math Tutoring - Calculus",
-      "Science & Technology Tutoring - AP Biology",
       "Science & Technology Tutoring - AP Chemistry",
+      "Science & Technology Tutoring - AP Biology",
       "Science & Technology Tutoring - AP Psychology"
     ]
   },
@@ -611,7 +617,7 @@
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/Mahipatel",
-    "name": "‌",
+    "name": "Mahi P.",
     "packages": [
       "ACT",
       "Math Tutoring - Algebra 1",

@@ -140,7 +140,28 @@
   {
     "url": "https://hsatutoring.tutorocean.com/host/rachelfields",
     "name": "‌",
-    "packages": []
+    "packages": [
+      "ACT",
+      "Language Tutoring - Spanish",
+      "Math Tutoring - Elementary School",
+      "Math Tutoring - Middle School",
+      "Math Tutoring - Pre-calculus",
+      "Math Tutoring - AP Calculus AB",
+      "Math Tutoring - Algebra 1",
+      "Math Tutoring - Algebra 2",
+      "Math Tutoring - Geometry & Trigonometry",
+      "Math Tutoring - Statistics and Probability",
+      "Science & Technology Tutoring - Physics",
+      "Math Tutoring - Multivariable Calculus (Calc 3)",
+      "Math Tutoring - Linear Algebra",
+      "SAT",
+      "Language Tutoring - AP Spanish",
+      "Pre-Algebra Private Tutoring",
+      "PSAT Private Tutoring",
+      "Math Tutoring - Calculus",
+      "Math Tutoring - AP Statistics",
+      "Science & Technology Tutoring - AP Physics"
+    ]
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/Allaura",
@@ -266,7 +287,7 @@
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/istra",
-    "name": "‌",
+    "name": "Dino Perusko",
     "packages": [
       "Math Tutoring - Elementary School",
       "Math Tutoring - Middle School",
@@ -316,12 +337,19 @@
     "name": "‌",
     "packages": [
       "Math Tutoring - AP Calculus AB",
+      "Math Tutoring - Algebra 1",
+      "Math Tutoring - Algebra 2",
       "Math Tutoring - Geometry & Trigonometry",
+      "Math Tutoring - Statistics and Probability",
       "Science & Technology Tutoring - Biology",
+      "Science & Technology Tutoring - Physics",
+      "SAT",
       "Language Tutoring - AP Spanish",
       "Science & Technology Tutoring - Chemistry",
+      "PSAT Private Tutoring",
       "Science & Technology Tutoring - AP Environmental Science",
-      "Science & Technology Tutoring - AP Biology"
+      "Science & Technology Tutoring - AP Biology",
+      "Science & Technology Tutoring - AP Physics"
     ]
   },
   {
@@ -420,7 +448,7 @@
   },
   {
     "url": "https://hsatutoring.tutorocean.com/host/ayella",
-    "name": "Abhigna Y.",
+    "name": "‌",
     "packages": []
   },
   {
